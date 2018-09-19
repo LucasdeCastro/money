@@ -52,50 +52,49 @@ const ExpensesList = ({
   removeConnect,
   paidConnect,
   unPaidConnect
-}) =>
-  console.log(salary) || (
-    <ListContainer>
-      <Title key="topay">
-        <TitleText>Pendentes</TitleText>
-        <Values>
-          Total
-          {numberToReal(topay.reduce((acc, { value: vl }) => acc + vl, 0))}
-        </Values>
-        <Values>
-          Saldo
-          {numberToReal(topay.reduce((acc, { value: vl }) => acc - vl, salary))}
-        </Values>
-      </Title>
-      {topay.map((spent, key) => (
-        <SpentCard
-          spent={spent}
-          key={`${key}-topay`}
-          paidClick={paidConnect}
-          removeClick={removeConnect}
-        />
-      ))}
-      <Title key="paid">
-        <TitleText>Pagos</TitleText>
-        <Values>
-          Total
-          {numberToReal(paid.reduce((acc, { value: vl }) => acc + vl, 0))}
-        </Values>
-        <Values>
-          Saldo
-          {numberToReal(paid.reduce((acc, { value: vl }) => acc - vl, salary))}
-        </Values>
-      </Title>
-      {paid.map((spent, key) => (
-        <SpentCard
-          paid={true}
-          spent={spent}
-          key={`${key}-paid`}
-          unPaidClick={unPaidConnect}
-          removeClick={removeConnect}
-        />
-      ))}
-    </ListContainer>
-  );
+}) => (
+  <ListContainer>
+    <Title key="topay">
+      <TitleText>Pendentes</TitleText>
+      <Values>
+        Total
+        {numberToReal(topay.reduce((acc, { value: vl }) => acc + vl, 0))}
+      </Values>
+      <Values>
+        Saldo
+        {numberToReal(topay.reduce((acc, { value: vl }) => acc - vl, salary))}
+      </Values>
+    </Title>
+    {topay.map((spent, key) => (
+      <SpentCard
+        spent={spent}
+        key={`${key}-topay`}
+        paidClick={paidConnect}
+        removeClick={removeConnect}
+      />
+    ))}
+    <Title key="paid">
+      <TitleText>Pagos</TitleText>
+      <Values>
+        Total
+        {numberToReal(paid.reduce((acc, { value: vl }) => acc + vl, 0))}
+      </Values>
+      <Values>
+        Saldo
+        {numberToReal(paid.reduce((acc, { value: vl }) => acc - vl, salary))}
+      </Values>
+    </Title>
+    {paid.map((spent, key) => (
+      <SpentCard
+        paid={true}
+        spent={spent}
+        key={`${key}-paid`}
+        unPaidClick={unPaidConnect}
+        removeClick={removeConnect}
+      />
+    ))}
+  </ListContainer>
+);
 
 export default connect(
   ({ expenses }) => expenses,
