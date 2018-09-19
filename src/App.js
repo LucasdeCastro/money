@@ -5,6 +5,7 @@ import { store, persistor } from "./store";
 import { Main, Container } from "./components";
 import ExpensesList from "./components/ExpensesList";
 import AddSpent from "./components/AddSpent";
+import Salary from "./components/Salary";
 
 const App = () => (
   <Provider store={store}>

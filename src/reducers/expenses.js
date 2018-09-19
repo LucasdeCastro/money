@@ -1,4 +1,5 @@
 const TYPES = {
+  SET_SALARY: "SET_SALARY",
   ADD_SPENT: "ADD_SPENT",
   PAID_SPENT: "PAID_SPENT",
   REMOVE_SPENT: "REMOVE_SPENT",
@@ -20,6 +21,7 @@ export const add = payload => ({ type: TYPES.ADD_SPENT, payload });
 export const unPaid = payload => ({ type: TYPES.UNPAID_SPENT, payload });
 export const paid = payload => ({ type: TYPES.PAID_SPENT, payload });
 export const remove = payload => ({ type: TYPES.REMOVE_SPENT, payload });
+export const setSalary = payload => ({ type: TYPES.SET_SALARY, payload });
 
 const removeExpense = (list, payload) => {
   return list.filter(
@@ -46,7 +48,10 @@ const updateExpenses = state => {
   };
 };
 
-const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
+const expenses = (
+  state = { topay: [], paid: [], salary: 0 },
+  { payload, type }
+) => {
   switch (type) {
     case TYPES.ADD_SPENT:
       return { ...state, topay: state.topay.concat(payload) };
@@ -68,6 +73,8 @@ const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
         paid: state.paid.concat(payload),
         topay: removeExpense(state.topay, payload)
       };
+    case TYPES.SET_SALARY:
+      return { ...state, salary: payload };
     case TYPES.REHYDRATE:
       return updateExpenses(payload.expenses);
     default:

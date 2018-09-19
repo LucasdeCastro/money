@@ -24,8 +24,17 @@ const AddSpent = props => {
   return (
     <AddForm>
       <Title>Adicionar novo gasto</Title>
-      <Input innerRef={ref => (refs.name = ref)} type="text" maxLength={20} />
-      <Input innerRef={ref => (refs.value = ref)} type="number" />
+      <Input
+        placeholder="Nome"
+        innerRef={ref => (refs.name = ref)}
+        type="text"
+        maxLength={20}
+      />
+      <Input
+        placeholder="Valor"
+        innerRef={ref => (refs.value = ref)}
+        type="number"
+      />
       <Select innerRef={ref => (refs.type = ref)} selected={"month"}>
         <option value={"month"}>Mensal</option>
         <option value={"day"}>Diário</option>

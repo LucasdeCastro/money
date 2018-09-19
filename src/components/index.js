@@ -57,13 +57,13 @@ export const Select = styled.select`
 export const Input = styled.input`
   height: 28px;
   margin-top: 4px;
+  padding: 4px 10px;
   border-radius: 5px;
   border: 1px solid #eee;
 `;
 export const Button = styled.button`
-  margin: 5px 0px;
+  margin: 10px 0px;
   background: #1a73e8;
-  max-width: 100px;
   height: 30px;
   color: #fff;
   border-radius: 5px;
@@ -75,6 +75,7 @@ export const Button = styled.button`
 
 export const Title = styled.div`
   display: flex;
+  align-items: center;
   font-size: 16px;
   color: #444;
   padding: 10px;
@@ -107,4 +108,10 @@ export const SpentButtons = styled.div`
   button {
     margin: 0px 5px;
   }
+`;
+
+export const Values = styled.div`
+  flex: 1;
+  text-align: left;
+  padding: 0px 10px;
 `;
