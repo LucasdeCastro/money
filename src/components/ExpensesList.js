@@ -15,12 +15,12 @@ import { paid, remove, unPaid } from "../reducers/expenses";
 
 const numberToReal = number => {
   if (!number) return " R$ 0 ";
-  let num = parseFloat(number)
+  const value = parseFloat(number)
     .toFixed(2)
-    .split(".");
+    .toString()
+    .replace(/\./, ",");
 
-  num[0] = " R$ " + num[0].split(/(?=(?:...)*$)/).join(".");
-  return num.join(",");
+  return ` R$ ${value}`;
 };
 
 const SpentCard = ({

@@ -29,6 +29,8 @@ const removeExpense = (list, payload) => {
   );
 };
 
+const sort = (a, b) => (a.value > b.value ? -1 : a.value === b.value ? 0 : 1);
+
 const updateExpenses = state => {
   const { paid, topay } = state.paid.reduce(
     (acc, spent) => {
@@ -43,8 +45,8 @@ const updateExpenses = state => {
 
   return {
     ...state,
-    topay: state.topay.concat(topay),
-    paid
+    topay: state.topay.concat(topay).sort(sort),
+    paid: paid.sort(sort)
   };
 };
 
@@ -54,7 +56,7 @@ const expenses = (
 ) => {
   switch (type) {
     case TYPES.ADD_SPENT:
-      return { ...state, topay: state.topay.concat(payload) };
+      return { ...state, topay: state.topay.concat(payload).sort(sort) };
     case TYPES.REMOVE_SPENT:
       return {
         ...state,
@@ -64,13 +66,13 @@ const expenses = (
     case TYPES.UNPAID_SPENT:
       return {
         ...state,
-        topay: state.topay.concat(payload),
+        topay: state.topay.concat(payload).sort(sort),
         paid: removeExpense(state.paid, payload)
       };
     case TYPES.PAID_SPENT:
       return {
         ...state,
-        paid: state.paid.concat(payload),
+        paid: state.paid.concat(payload).sort(sort),
         topay: removeExpense(state.topay, payload)
       };
     case TYPES.SET_SALARY:
