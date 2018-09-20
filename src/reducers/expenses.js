@@ -76,7 +76,7 @@ const expenses = (
     case TYPES.SET_SALARY:
       return { ...state, salary: payload };
     case TYPES.REHYDRATE:
-      return updateExpenses(payload.expenses);
+      return updateExpenses((payload && payload.expenses) || state);
     default:
       return state;
   }
