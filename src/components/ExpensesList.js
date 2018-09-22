@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { paid, remove, unPaid } from "../reducers/expenses";
 
 const numberToReal = number => {
-  if (!number) return " R$ 0 ";
+  if (!number) return "R$ 0 ";
   const value = parseFloat(number)
     .toFixed(2)
     .toString()
@@ -57,11 +57,10 @@ const ExpensesList = ({
     <Title key="topay">
       <TitleText>Pendentes</TitleText>
       <Values>
-        Total
-        {numberToReal(topay.reduce((acc, { value: vl }) => acc + vl, 0))}
+        Total {numberToReal(topay.reduce((acc, { value: vl }) => acc + vl, 0))}
       </Values>
       <Values>
-        Saldo
+        Saldo{" "}
         {numberToReal(topay.reduce((acc, { value: vl }) => acc - vl, salary))}
       </Values>
     </Title>
@@ -76,11 +75,10 @@ const ExpensesList = ({
     <Title key="paid">
       <TitleText>Pagos</TitleText>
       <Values>
-        Total
-        {numberToReal(paid.reduce((acc, { value: vl }) => acc + vl, 0))}
+        Total {numberToReal(paid.reduce((acc, { value: vl }) => acc + vl, 0))}
       </Values>
       <Values>
-        Saldo
+        Saldo{" "}
         {numberToReal(paid.reduce((acc, { value: vl }) => acc - vl, salary))}
       </Values>
     </Title>

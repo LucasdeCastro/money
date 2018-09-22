@@ -76,7 +76,7 @@ const expenses = (
         topay: removeExpense(state.topay, payload)
       };
     case TYPES.SET_SALARY:
-      return { ...state, salary: payload };
+      return { ...state, salary: parseFloat(payload) };
     case TYPES.REHYDRATE:
       return updateExpenses((payload && payload.expenses) || state);
     default:

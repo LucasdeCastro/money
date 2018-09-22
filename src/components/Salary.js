@@ -8,7 +8,7 @@ const Salary = ({ salary, setSalaryConnect }) => (
     <Title>Salário</Title>
     <Input
       type="number"
-      value={salary === "0" ? "" : salary}
+      value={salary === 0 ? "" : salary}
       placeholder="Salário"
       onChange={({ target: { value } }) => value && setSalaryConnect(value)}
     />

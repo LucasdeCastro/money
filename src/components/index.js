@@ -6,13 +6,15 @@ export const Main = styled.div`
 `;
 
 export const Container = styled.div`
-  padding: 10px;
+  padding: 20px;
   width: 100%;
   border: 1px solid #eee;
   max-width: 700px;
   background: #fff;
   margin: 20px;
   border-radius: 3px;
+  display: flex;
+  flex-direction: column;
 
   @media only screen and (max-width: 500px) {
     margin: 10px;
@@ -42,7 +44,6 @@ export const Spent = styled.div`
 export const AddForm = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px;
 `;
 
 export const Select = styled.select`
@@ -68,8 +69,8 @@ export const Button = styled.button`
   color: #fff;
   border-radius: 5px;
   border: none;
-  max-width: 104px;
-  min-width: 72px;
+  max-width: 120px;
+  min-width: 75px;
   cursor: pointer;
 `;
 
@@ -82,15 +83,24 @@ export const Title = styled.div`
   border-radius 2px;
   background #EEE;
   margin: 10px 0px;
+
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    div {
+      padding: 0px;
+      margin: 10px 0px;
+    }
+  }
 `;
 
 export const TitleText = styled.div`
   flex: 1;
+  font-weight: 600;
 `;
 
-export const ListContainer = styled.div`
-  padding: 10px;
-`;
+export const ListContainer = styled.div``;
 
 export const SpentName = styled.div`
   flex: 1;
@@ -114,4 +124,16 @@ export const Values = styled.div`
   flex: 1;
   text-align: left;
   padding: 0px 10px;
+`;
+
+export const ButtonGreen = styled(Button)`
+  background: #14e214;
+`;
+
+export const Center = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
