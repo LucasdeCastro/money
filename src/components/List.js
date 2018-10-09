@@ -23,6 +23,18 @@ const numberToReal = number => {
   return ` R$ ${value}`;
 };
 
+const formatDate = time => {
+  const date = new Date(time);
+  const day = date
+    .getDate()
+    .toString()
+    .padStart(2, "0");
+
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+
+  return `${day}/${month}/${date.getFullYear()}`;
+};
+
 const SpentCard = ({
   spent,
   paid = false,
@@ -30,11 +42,12 @@ const SpentCard = ({
   unPaidClick,
   removeClick
 }) => {
-  const { name, value, type } = spent;
+  const { name, value, type, lastUpdate } = spent;
   return (
     <Spent>
       <SpentName>{name}</SpentName>
       <SpentName>{type}</SpentName>
+      {paid && <SpentValue>{formatDate(lastUpdate)}</SpentValue>}
       <SpentValue>{numberToReal(value)}</SpentValue>
       <SpentButtons>
         {!paid && <Button onClick={() => paidClick(spent)}>Paid</Button>}
@@ -45,7 +58,7 @@ const SpentCard = ({
   );
 };
 
-const ExpensesList = ({
+const List = ({
   topay,
   paid,
   salary,
@@ -97,4 +110,4 @@ const ExpensesList = ({
 export default connect(
   ({ expenses }) => expenses,
   { paidConnect: paid, removeConnect: remove, unPaidConnect: unPaid }
-)(ExpensesList);
+)(List);
