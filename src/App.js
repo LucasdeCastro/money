@@ -4,15 +4,14 @@ import { store } from "./store";
 import { githubLogout } from "./firebase";
 import {
   Main,
-  Container,
   Button,
-  RowContainer,
-  ButtonGreen
+  Container,
+  ButtonGreen,
+  TitleContainer
 } from "./components";
 import List from "./components/List";
 import AddSpent from "./components/AddSpent";
 import Login from "./components/Login";
-import Extra from "./components/Extra";
 import Salary from "./components/Salary";
 import { withReducer } from "recompose";
 
@@ -31,16 +30,20 @@ const App = ({ showFeature, dispatch }) => (
     <Main>
       {localStorage.getItem("access_token") ? (
         <Container>
-          <h3>Github - Money</h3>
-
-          <RowContainer>
-            <ButtonGreen onClick={githubLogout}>Logout</ButtonGreen>
+          <TitleContainer>
+            <h3>Github - Money</h3>
             <Button onClick={() => dispatch({ type: TOGGLE })}>
               {showFeature ? "Hide" : "Show"}
             </Button>
-          </RowContainer>
+            <ButtonGreen onClick={githubLogout}>Logout</ButtonGreen>
+          </TitleContainer>
 
-          {showFeature && [<Salary />, <AddSpent />, <Extra />]}
+          {showFeature && (
+            <div>
+              <Salary />
+              <AddSpent />
+            </div>
+          )}
 
           <List />
         </Container>
