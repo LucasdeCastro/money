@@ -1,7 +1,7 @@
 import React from "react";
 import { Title, Input, AddForm } from "./index";
 import { connect } from "react-redux";
-import { setSalary } from "../reducers/expenses";
+import { setSalary } from "../reducers/salary";
 
 const Salary = ({ salary, setSalaryConnect }) => (
   <AddForm>
@@ -16,6 +16,6 @@ const Salary = ({ salary, setSalaryConnect }) => (
 );
 
 export default connect(
-  ({ expenses }) => expenses,
+  ({ salary }) => ({ salary: salary.value }),
   { setSalaryConnect: setSalary }
 )(Salary);

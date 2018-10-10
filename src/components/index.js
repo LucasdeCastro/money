@@ -5,6 +5,24 @@ export const Main = styled.div`
   justify-content: center;
 `;
 
+export const RowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const TitleContainer = RowContainer.extend`
+  line-height: 50px;
+
+  h3 {
+    flex: 1;
+    margin: 0px;
+  }
+
+  button {
+    margin-left: 10px;
+  }
+`;
+
 export const Container = styled.div`
   padding: 20px;
   width: 100%;

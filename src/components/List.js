@@ -108,6 +108,6 @@ const List = ({
 );
 
 export default connect(
-  ({ expenses }) => expenses,
+  ({ expenses, salary }) => ({ ...expenses, salary: salary.value }),
   { paidConnect: paid, removeConnect: remove, unPaidConnect: unPaid }
 )(List);

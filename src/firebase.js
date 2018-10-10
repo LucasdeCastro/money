@@ -56,24 +56,18 @@ const persistFirebase = (db, store, keys) => {
         firebase.auth().currentUser && firebase.auth().currentUser.uid;
 
       if (userId) {
-        const content = keys.map(key =>
-          db
-            .collection(`${key}`)
-            .doc(userId)
-            .get()
-        );
-
-        Promise.all(content).then(list => {
-          const nextStore = list.reduce((acc, data, index) => {
-            const key = keys[index];
-            return { ...acc, [key]: data.data() };
-          }, store.getState());
-
-          store.dispatch({
-            type: TYPES.SET_REHYDRATE_FIREBASE,
-            payload: nextStore
+        db.doc(`users/${userId}`)
+          .get()
+          .then(result => {
+            const data = result.data();
+            store.dispatch({
+              type: TYPES.SET_REHYDRATE_FIREBASE,
+              payload: keys.reduce(
+                (acc, key) => ({ ...acc, [key]: data[key] }),
+                {}
+              )
+            });
           });
-        });
       } else {
         loop();
       }
@@ -110,17 +104,23 @@ const firebaseMiddleware = middlewareConfig => {
 
         if (!userId) return;
 
-        middlewareConfig.forEach(key => {
-          if (!equals(previosState[key], nextState[key])) {
-            return db
-              .collection(`${key}`)
-              .doc(userId)
-              .set({
-                ...nextState[key],
-                author_id: firebase.auth().currentUser.uid
-              });
-          }
-        });
+        const storeData = middlewareConfig.reduce(
+          (acc, key) => {
+            if (!equals(previosState[key], nextState[key])) {
+              acc.hasDiff = true;
+            }
+            acc.data[key] = nextState[key];
+            return acc;
+          },
+          { hasDiff: false, data: {} }
+        );
+
+        if (storeData.hasDiff) {
+          return db.doc(`users/${userId}`).set({
+            ...storeData.data,
+            author_id: firebase.auth().currentUser.uid
+          });
+        }
       };
     }
   };
