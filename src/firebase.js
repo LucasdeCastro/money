@@ -15,8 +15,21 @@ const config = {
 firebase.initializeApp(config);
 
 const TYPES = {
-  SET_REHYDRATE_FIREBASE: "SET_REHYDRATE_FIREBASE"
+  SET_REHYDRATE_FIREBASE: "SET_REHYDRATE_FIREBASE",
+  SET_REHYDRATE_FIREBASE_LOADING: "SET_REHYDRATE_FIREBASE_LOADING"
 };
+
+export const firebaseReducer = (state = { loading: true }, { type }) => {
+  switch (type) {
+    case TYPES.SET_REHYDRATE_FIREBASE_LOADING:
+      return { ...state, loading: true };
+    case TYPES.SET_REHYDRATE_FIREBASE:
+      return { ...state, loading: false };
+    default:
+      return state;
+  }
+};
+
 const createGithubProvider = () => {
   const provider = new firebase.auth.GithubAuthProvider();
   provider.addScope("repo");
@@ -56,6 +69,7 @@ const persistFirebase = (db, store, keys) => {
         firebase.auth().currentUser && firebase.auth().currentUser.uid;
 
       if (userId) {
+        store.dispatch({ type: TYPES.SET_REHYDRATE_FIREBASE_LOADING });
         db.doc(`users/${userId}`)
           .get()
           .then(result => {
