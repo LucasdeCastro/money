@@ -147,6 +147,7 @@ export const Values = styled.div`
   flex: 1;
   text-align: left;
   padding: 0px 10px;
+  color: ${props => (props.negative ? "red" : "#444")};
 `;
 
 export const ButtonGreen = styled(Button)`

@@ -11,8 +11,8 @@ import {
   ListContainer,
   Loading
 } from "./index";
-import { compose, branch, renderComponent } from "recompose";
 import { connect } from "react-redux";
+import { compose, branch, renderComponent, withProps } from "recompose";
 import { paid, remove, unPaid } from "../reducers/expenses";
 
 const numberToReal = number => {
@@ -63,7 +63,10 @@ const SpentCard = ({
 const List = ({
   topay,
   paid,
-  salary,
+  paidBalance,
+  pendentTotal,
+  pendentBalance,
+  paidTotal,
   removeConnect,
   paidConnect,
   unPaidConnect
@@ -71,12 +74,11 @@ const List = ({
   <ListContainer>
     <Title key="topay">
       <TitleText>Pendentes</TitleText>
-      <Values>
-        Total {numberToReal(topay.reduce((acc, { value: vl }) => acc + vl, 0))}
+      <Values negative={pendentTotal < 0}>
+        Total {numberToReal(pendentTotal)}
       </Values>
-      <Values>
-        Saldo{" "}
-        {numberToReal(topay.reduce((acc, { value: vl }) => acc - vl, salary))}
+      <Values negative={pendentBalance < 0}>
+        Saldo {numberToReal(pendentBalance)}
       </Values>
     </Title>
     {topay.map((spent, key) => (
@@ -89,12 +91,9 @@ const List = ({
     ))}
     <Title key="paid">
       <TitleText>Pagos</TitleText>
-      <Values>
-        Total {numberToReal(paid.reduce((acc, { value: vl }) => acc + vl, 0))}
-      </Values>
-      <Values>
-        Saldo{" "}
-        {numberToReal(paid.reduce((acc, { value: vl }) => acc - vl, salary))}
+      <Values negative={paidTotal < 0}>Total {numberToReal(paidTotal)}</Values>
+      <Values negative={paidBalance < 0}>
+        Saldo {numberToReal(paidBalance)}
       </Values>
     </Title>
     {paid.map((spent, key) => (
@@ -118,6 +117,12 @@ const enhancer = compose(
     }),
     { paidConnect: paid, removeConnect: remove, unPaidConnect: unPaid }
   ),
+  withProps(({ topay, paid, salary }) => ({
+    pendentTotal: topay.reduce((acc, { value: vl }) => acc + vl, 0),
+    pendentBalance: topay.reduce((acc, { value: vl }) => acc - vl, salary),
+    paidTotal: paid.reduce((acc, { value: vl }) => acc + vl, 0),
+    paidBalance: paid.reduce((acc, { value: vl }) => acc - vl, salary)
+  })),
   branch(props => props.firebase.loading, renderComponent(Loading))
 );
 
