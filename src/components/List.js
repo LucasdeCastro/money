@@ -44,7 +44,7 @@ const SpentCard = ({
 }) => {
   const { name, value, type, lastUpdate } = spent;
   return (
-    <Spent>
+    <Spent negative={value < 0}>
       <SpentName>{name}</SpentName>
       <SpentName>{type}</SpentName>
       {paid && <SpentValue>{formatDate(lastUpdate)}</SpentValue>}
