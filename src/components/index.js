@@ -48,6 +48,8 @@ export const Spent = styled.div`
   align-items: center;
   padding: 0px 10px;
 
+  color: ${props => (props.negative ? "#1a73e8" : "#444")}
+
   @media only screen and (max-width: 500px) {
     padding: 5px;
     align-items: flex-start;
