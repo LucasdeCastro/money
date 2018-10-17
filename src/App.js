@@ -1,5 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
+import { connect } from "react-redux";
 import { store } from "./store";
 import { githubLogout } from "./firebase";
 import {
@@ -13,7 +14,7 @@ import List from "./components/List";
 import AddSpent from "./components/AddSpent";
 import Login from "./components/Login";
 import Salary from "./components/Salary";
-import { withReducer } from "recompose";
+import { withReducer, compose, branch, renderComponent } from "recompose";
 
 const TOGGLE = "TOGGLE";
 const toggleFeature = (flag = false, action) => {
@@ -25,35 +26,41 @@ const toggleFeature = (flag = false, action) => {
   }
 };
 
+const enhancer = compose(
+  connect(state => state),
+  withReducer("showFeature", "dispatch", toggleFeature),
+  branch(
+    () => !localStorage.getItem("access_token"),
+    renderComponent(() => (
+      <Container>
+        <Login />
+      </Container>
+    ))
+  )
+);
+
 const App = ({ showFeature, dispatch }) => (
   <Provider store={store}>
     <Main>
-      {localStorage.getItem("access_token") ? (
-        <Container>
-          <TitleContainer>
-            <h3>Github - Money</h3>
-            <Button onClick={() => dispatch({ type: TOGGLE })}>
-              {showFeature ? "Hide" : "Show"}
-            </Button>
-            <ButtonGreen onClick={githubLogout}>Logout</ButtonGreen>
-          </TitleContainer>
+      <Container>
+        <TitleContainer>
+          <h3>Github - Money</h3>
+          <Button onClick={() => dispatch({ type: TOGGLE })}>
+            {showFeature ? "Hide" : "Show"}
+          </Button>
+          <ButtonGreen onClick={githubLogout}>Logout</ButtonGreen>
+        </TitleContainer>
 
-          {showFeature && (
-            <div>
-              <Salary />
-              <AddSpent />
-            </div>
-          )}
-
-          <List />
-        </Container>
-      ) : (
-        <Container>
-          <Login />
-        </Container>
-      )}
+        {showFeature && (
+          <div>
+            <Salary />
+            <AddSpent />
+          </div>
+        )}
+        <List />
+      </Container>
     </Main>
   </Provider>
 );
 
-export default withReducer("showFeature", "dispatch", toggleFeature)(App);
+export default enhancer(App);

@@ -12,6 +12,7 @@ export const RowContainer = styled.div`
 
 export const TitleContainer = RowContainer.extend`
   line-height: 50px;
+  border-bottom: 1px solid #eee;
 
   h3 {
     flex: 1;
@@ -33,7 +34,7 @@ export const Container = styled.div`
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-
+  min-height: 450px;
   @media only screen and (max-width: 500px) {
     margin: 10px;
   }
@@ -120,7 +121,9 @@ export const TitleText = styled.div`
   font-weight: 600;
 `;
 
-export const ListContainer = styled.div``;
+export const ListContainer = styled.div`
+  animation: fade-in 1s;
+`;
 
 export const SpentName = styled.div`
   flex: 1;
@@ -156,4 +159,15 @@ export const Center = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+export const Loading = styled.div`
+  margin-top: 200px;
+  width: 25px;
+  height: 13px;
+  border-radius: 2px;
+  background-color: #1a73e8;
+  align-self: center;
+  margin-left: -75px;
+  animation: loading 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
 `;

@@ -8,8 +8,10 @@ import {
   SpentName,
   SpentValue,
   SpentButtons,
-  ListContainer
+  ListContainer,
+  Loading
 } from "./index";
+import { compose, branch, renderComponent } from "recompose";
 import { connect } from "react-redux";
 import { paid, remove, unPaid } from "../reducers/expenses";
 
@@ -107,7 +109,16 @@ const List = ({
   </ListContainer>
 );
 
-export default connect(
-  ({ expenses, salary }) => ({ ...expenses, salary: salary.value }),
-  { paidConnect: paid, removeConnect: remove, unPaidConnect: unPaid }
-)(List);
+const enhancer = compose(
+  connect(
+    ({ expenses, salary, firebase }) => ({
+      ...expenses,
+      firebase,
+      salary: salary.value
+    }),
+    { paidConnect: paid, removeConnect: remove, unPaidConnect: unPaid }
+  ),
+  branch(props => props.firebase.loading, renderComponent(Loading))
+);
+
+export default enhancer(List);
