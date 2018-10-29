@@ -69,7 +69,8 @@ const List = ({
   paidTotal,
   removeConnect,
   paidConnect,
-  unPaidConnect
+  unPaidConnect,
+  negativeTotal
 }) => (
   <ListContainer>
     <Title key="topay">
@@ -79,6 +80,9 @@ const List = ({
       </Values>
       <Values negative={pendentBalance < 0}>
         Saldo {numberToReal(pendentBalance)}
+      </Values>
+      <Values blue negative={negativeTotal < 0}>
+        Receber {numberToReal(negativeTotal)}
       </Values>
     </Title>
     {topay.map((spent, key) => (
@@ -118,6 +122,10 @@ const enhancer = compose(
     { paidConnect: paid, removeConnect: remove, unPaidConnect: unPaid }
   ),
   withProps(({ topay, paid, salary }) => ({
+    negativeTotal: topay.reduce(
+      (acc, { value: vl }) => (vl < 0 ? acc + Math.abs(vl) : acc),
+      0
+    ),
     pendentTotal: topay.reduce((acc, { value: vl }) => acc + vl, 0),
     pendentBalance: topay.reduce((acc, { value: vl }) => acc - vl, salary),
     paidTotal: paid.reduce((acc, { value: vl }) => acc + vl, 0),
