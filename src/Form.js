@@ -1,14 +1,14 @@
 import React from "react";
 import DyForm from "dy-form";
-import { Button, Input, Error, Select, FieldGroup } from "./components";
+import { Button, FieldGroup } from "./components";
 import { input, select } from "./components/FormComponents";
 
 const FormTemplate = new DyForm(
   { input, select },
   {
-    submit: () => (
+    submit: ({ label = "Save" }) => (
       <FieldGroup>
-        <Button type={"submit"}>Save</Button>
+        <Button type={"submit"}>{label}</Button>
       </FieldGroup>
     )
   },

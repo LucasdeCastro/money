@@ -36,7 +36,7 @@ const App = ({ showFeature, dispatch, ...props }) => (
   <Provider store={store}>
     <div>
       <h1>Ola mundo</h1>
-      <Expenses.build key={"expenses-form"} />
+      <Expenses.build />
     </div>
   </Provider>
 );

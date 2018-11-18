@@ -70,6 +70,7 @@ export const AddForm = styled.div`
 export const Select = styled.select`
   padding: 5px;
   height: 33px;
+  font-size: 14px;
   border-radius: 5px;
   margin-top: 4px;
   border: 1px solid #eee;
@@ -86,16 +87,15 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  margin: 10px 0px;
-  background: #1a73e8;
-  height: 30px;
   color: #fff;
-  border-radius: 5px;
   border: none;
-  max-width: 120px;
+  height: 30px;
+  margin: 10px 0px;
   min-width: 75px;
   cursor: pointer;
   font-size: 15px;
+  border-radius: 5px;
+  background: #1a73e8;
 
   :hover {
     background-color: rgba(25, 115, 232, 0.9);

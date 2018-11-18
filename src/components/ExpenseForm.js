@@ -18,9 +18,29 @@ const Expenses = Form.create("expenses")
     {
       name: "type",
       type: "select",
-      props: { placeholder: "Tipo", options: [{ value: "Prazo", key: "P" }] }
+      props: {
+        placeholder: "Tipo",
+        options: [{ value: "Fixa", key: "F" }, { value: "Prazo", key: "P" }]
+      }
     }
   )
+  .workflow({
+    name: "type",
+    values: ["P"],
+    fields: [
+      {
+        name: "times",
+        type: "input",
+        props: {
+          placeholder: "Em quantas vezes?"
+        },
+        validate: [
+          { name: "onlyNumber", message: "Esse campo so pode ter numeros" }
+        ]
+      }
+    ]
+  })
+  .setSubmitButtonProps({ label: "Add novo gasto" })
   .onSubmit(form => console.log("FORM", form));
 
 export default Expenses;

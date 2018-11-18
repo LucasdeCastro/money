@@ -2612,9 +2612,9 @@ duplexer@^0.1.1:
   integrity sha1-rOb/gIwc5mtX0ev5eXessCM0z8E=
 
 dy-form@^0.1.0:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/dy-form/-/dy-form-0.1.6.tgz#1af61653d9de5a18dfbb971bd44294430b34f148"
-  integrity sha512-iIwyXnSIMUIgsGog/oRmG1XSORedJPAlY8KrD1ffrp1L6BHk2o5waxrrGfDlSX3lH0JtpLUSW6JXuzPTkLLqoA==
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/dy-form/-/dy-form-0.1.10.tgz#cf8a55633f5cdb3ab0c85adb7454bfa540dfe389"
+  integrity sha512-AcASLrT6ZIGP4TNnn95rtoc4qsL+qya9c4I1Y6/2hu2qmeshqgntODiO/Vgw/jGlmbWs0Ju1lriZVcWra2X4/w==
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"

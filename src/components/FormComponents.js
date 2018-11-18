@@ -14,7 +14,9 @@ export const select = ({ input, meta: { error }, placeholder, options }) => (
     <label>{placeholder}</label>
     <Select {...input}>
       {options.map(({ key, value }) => (
-        <option value={key}>{value}</option>
+        <option key={`${value}-${key}`} value={key}>
+          {value}
+        </option>
       ))}
     </Select>
     {error && <Error>{error}</Error>}
