@@ -1,17 +1,10 @@
 import React from "react";
 import DyForm from "dy-form";
-import { Button, Input, Error, FieldGroup } from "./components";
-
-const input = ({ input, meta: { error }, placeholder, ...props }) => (
-  <FieldGroup>
-    <label>{placeholder}</label>
-    <Input {...input} />
-    {error && <Error>{error}</Error>}
-  </FieldGroup>
-);
+import { Button, Input, Error, Select, FieldGroup } from "./components";
+import { input, select } from "./components/FormComponents";
 
 const FormTemplate = new DyForm(
-  { input },
+  { input, select },
   {
     submit: () => (
       <FieldGroup>

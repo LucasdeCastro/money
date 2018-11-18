@@ -78,11 +78,13 @@ export const Select = styled.select`
 
 export const Input = styled.input`
   height: 28px;
+  font-size: 14px;
   margin-top: 4px;
   padding: 4px 10px;
   border-radius: 5px;
   border: 1px solid #eee;
 `;
+
 export const Button = styled.button`
   margin: 10px 0px;
   background: #1a73e8;
@@ -180,6 +182,7 @@ export const Loading = styled.div`
 
 export const Error = styled.label`
   color: red;
+  padding: 10px 0px;
 `;
 
 export const FieldGroup = styled.div`

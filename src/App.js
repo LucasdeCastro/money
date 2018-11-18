@@ -1,10 +1,10 @@
 import React from "react";
+import { store } from "./store";
 import { Provider } from "react-redux";
 import { connect } from "react-redux";
-import { store } from "./store";
-import Form from "./Form";
-import { Container, Main } from "./components";
 import Login from "./components/Login";
+import { Container, Main } from "./components";
+import Expenses from "./components/ExpenseForm";
 import { withReducer, compose, branch, renderComponent } from "recompose";
 
 const TOGGLE = "TOGGLE";
@@ -16,24 +16,6 @@ const toggleFeature = (flag = false, action) => {
       return flag;
   }
 };
-
-const Expenses = Form.create("expenses")
-  .fields(
-    {
-      name: "name",
-      type: "input",
-      props: { placeholder: "Nome do gasto" }
-    },
-    {
-      name: "value",
-      type: "input",
-      props: { placeholder: "Valor do gasto" },
-      validate: [
-        { name: "onlyNumber", message: "Esse campo so pode ter numeros" }
-      ]
-    }
-  )
-  .onSubmit(e => console.log("FORM", e));
 
 const enhancer = compose(
   connect(state => state),
