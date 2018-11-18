@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dy-form": "^0.1.0",
     "firebase": "^5.5.1",
     "ramda": "^0.25.0",
     "react": "^16.5.1",
@@ -11,6 +12,8 @@
     "react-scripts": "1.1.5",
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
+    "redux-form": "^7.4.2",
+    "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
     "styled-components": "^3.4.8"
   },

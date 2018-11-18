@@ -93,6 +93,11 @@ export const Button = styled.button`
   max-width: 120px;
   min-width: 75px;
   cursor: pointer;
+  font-size: 15px;
+
+  :hover {
+    background-color: rgba(25, 115, 232, 0.9);
+  }
 `;
 
 export const Title = styled.div`
@@ -171,4 +176,14 @@ export const Loading = styled.div`
   align-self: center;
   margin-left: -75px;
   animation: loading 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+`;
+
+export const Error = styled.label`
+  color: red;
+`;
+
+export const FieldGroup = styled.div`
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
 `;

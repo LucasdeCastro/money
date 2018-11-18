@@ -74,13 +74,16 @@ const persistFirebase = (db, store, keys) => {
           .get()
           .then(result => {
             const data = result.data();
-            store.dispatch({
-              type: TYPES.SET_REHYDRATE_FIREBASE,
-              payload: keys.reduce(
-                (acc, key) => ({ ...acc, [key]: data[key] }),
-                {}
-              )
-            });
+            const month = store.getState().month;
+            if (data) {
+              store.dispatch({
+                type: TYPES.SET_REHYDRATE_FIREBASE,
+                payload: keys.reduce(
+                  (acc, key) => ({ ...acc, [key]: data[month][key] }),
+                  {}
+                )
+              });
+            }
           });
       } else {
         loop();
@@ -114,7 +117,9 @@ const firebaseMiddleware = middlewareConfig => {
         const previosState = store.getState();
         next(action);
         const nextState = store.getState();
-        const userId = firebase.auth().currentUser.uid;
+        console.log(firebase.auth().currentUser);
+        const userId =
+          firebase.auth().currentUser && firebase.auth().currentUser.uid;
 
         if (!userId) return;
 
@@ -129,9 +134,10 @@ const firebaseMiddleware = middlewareConfig => {
           { hasDiff: false, data: {} }
         );
 
+        const month = store.getState().month;
         if (storeData.hasDiff) {
           return db.doc(`users/${userId}`).set({
-            ...storeData.data,
+            [month]: { ...storeData.data },
             author_id: firebase.auth().currentUser.uid
           });
         }
