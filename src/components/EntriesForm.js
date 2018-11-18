@@ -1,6 +1,4 @@
 import Form from "../Form";
-import { connect } from "react-redux";
-import setEntry from "../reducers/entries";
 
 const Entries = Form.create("entries")
   .fields(
@@ -13,13 +11,15 @@ const Entries = Form.create("entries")
           { value: "Salário", key: "salary" },
           { value: "Extras", key: "extra" }
         ]
-      }
+      },
+      validate: [{ name: "required", message: "O valor é obrigatório" }]
     },
     {
       name: "value",
       type: "input",
       props: { placeholder: "Valor" },
       validate: [
+        { name: "required", message: "O valor é obrigatório" },
         { name: "onlyNumber", message: "Esse campo so pode ter numeros" }
       ]
     }

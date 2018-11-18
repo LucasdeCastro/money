@@ -2612,9 +2612,15 @@ duplexer@^0.1.1:
   integrity sha1-rOb/gIwc5mtX0ev5eXessCM0z8E=
 
 dy-form@^0.1.0:
+<<<<<<< Updated upstream
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/dy-form/-/dy-form-0.1.12.tgz#446d532dad5d2dbda77bd81f9df03b81586424da"
   integrity sha512-o5Ws81ieyfw7n30iBBklfFG+dqIPQW5GCsVbk8/INuHicnws1QEAC/TsoQXKQ2oguvbRNBt/tE5m72C+GwvoHw==
+=======
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/dy-form/-/dy-form-0.1.11.tgz#e892cc017ce5bd63827306f6fcc8ce575b3570dc"
+  integrity sha512-3YGkazsi4urB3UK42mlCUTcAiSaa4rq2qmhTiU+gXHD1P1AlhKzs/pR3/p1c8O2onNG+ETzFfoL+3Xjn2PR3+A==
+>>>>>>> Stashed changes
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"

@@ -16,7 +16,7 @@ const enhancer = compose(
   withState("showModal", "setShowModal", false)
 );
 
-const Modal = ({ children, showModal, setShowModal }) => (
+const Modal = ({ children, onSubmit, showModal, setShowModal }) => (
   <div>
     <FieldGroup>
       <Button
@@ -38,7 +38,12 @@ const Modal = ({ children, showModal, setShowModal }) => (
           >
             &times;
           </ModalCloseButton>
-          {children}
+          {React.cloneElement(children, {
+            onSubmit: (...props) => {
+              setShowModal(false);
+              onSubmit(...props);
+            }
+          })}
         </ModalContent>
       </ModalContainer>
     )}
