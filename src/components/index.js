@@ -107,24 +107,11 @@ export const Button = styled.button`
 `;
 
 export const Title = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #444;
+  flex: 1;
+  font-size: 22px;
+  font-weight: 600;
+  color: #000;
   padding: 10px;
-  border-radius 2px;
-  background #EEE;
-  margin: 10px 0px;
-
-  @media only screen and (max-width: 500px) {
-    flex-direction: column;
-    align-items: flex-start;
-
-    div {
-      padding: 0px;
-      margin: 10px 0px;
-    }
-  }
 `;
 
 export const TitleText = styled.div`

@@ -1,8 +1,7 @@
 import React from "react";
 import {
   Title,
-  Input,
-  AddForm,
+  RowContainer,
   ModalContainer,
   ModalContent,
   ModalCloseButton
@@ -16,7 +15,14 @@ const enhancer = compose(
   withState("showModal", "setShowModal", false)
 );
 
-const Modal = ({ children, onSubmit, showModal, setShowModal }) => (
+const Modal = ({
+  label,
+  title,
+  children,
+  onSubmit,
+  showModal,
+  setShowModal
+}) => (
   <div>
     <FieldGroup>
       <Button
@@ -25,19 +31,23 @@ const Modal = ({ children, onSubmit, showModal, setShowModal }) => (
           setShowModal(true);
         }}
       >
-        Add Entrada
+        {label}
       </Button>
     </FieldGroup>
     {showModal && (
       <ModalContainer>
         <ModalContent>
-          <ModalCloseButton
-            onClick={() => {
-              setShowModal(false);
-            }}
-          >
-            &times;
-          </ModalCloseButton>
+          <RowContainer style={{ alignItems: "center" }}>
+            <Title>{title}</Title>
+            <ModalCloseButton
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
+              &times;
+            </ModalCloseButton>
+          </RowContainer>
+
           {React.cloneElement(children, {
             onSubmit: (...props) => {
               setShowModal(false);
