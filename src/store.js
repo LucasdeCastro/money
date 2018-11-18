@@ -5,4 +5,4 @@ import { createStore, applyMiddleware } from "redux";
 
 const { firebase, persistor } = firebaseMiddleware(["expenses", "salary"]);
 
-export const store = createStore(persistor(reducer), applyMiddleware(logger));
+export const store = createStore(persistor(reducer), applyMiddleware(firebase));

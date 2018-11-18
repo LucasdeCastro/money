@@ -40,7 +40,6 @@ const Expenses = Form.create("expenses")
       }
     ]
   })
-  .setSubmitButtonProps({ label: "Add novo gasto" })
-  .onSubmit(form => console.log("FORM", form));
+  .setSubmitButtonProps({ label: "Add novo gasto" });
 
 export default Expenses;
