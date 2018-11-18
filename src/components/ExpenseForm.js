@@ -12,7 +12,7 @@ const Expenses = Form.create("expenses")
       type: "input",
       props: { placeholder: "Valor" },
       validate: [
-        { name: "onlyNumber", message: "Esse campo so pode ter numeros" }
+        { name: "onlyNumber", message: "Esse campo só pode ter números" }
       ]
     },
     {
@@ -35,7 +35,7 @@ const Expenses = Form.create("expenses")
           placeholder: "Em quantas vezes?"
         },
         validate: [
-          { name: "onlyNumber", message: "Esse campo so pode ter numeros" }
+          { name: "onlyNumber", message: "Esse campo só pode ter números" }
         ]
       }
     ]

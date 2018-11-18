@@ -106,7 +106,6 @@ const firebaseMiddleware = middlewareConfig => {
   return {
     persistor: reducer => (state, action) => {
       const { type, payload } = action;
-
       switch (type) {
         case TYPES.SET_REHYDRATE_FIREBASE:
           return reducer({ ...state, ...payload }, action);
@@ -114,6 +113,7 @@ const firebaseMiddleware = middlewareConfig => {
           return reducer(state, action);
       }
     },
+
     firebase: store => next => {
       persistFirebase(db, store, middlewareConfig);
       return action => {

@@ -69,7 +69,7 @@ export const AddForm = styled.div`
 
 export const Select = styled.select`
   padding: 5px;
-  height: 33px;
+  height: 35px;
   font-size: 14px;
   border-radius: 5px;
   margin-top: 4px;
@@ -89,7 +89,7 @@ export const Input = styled.input`
 export const Button = styled.button`
   color: #fff;
   border: none;
-  height: 30px;
+  padding: 10px 0px;
   margin: 10px 0px;
   min-width: 75px;
   cursor: pointer;
@@ -99,6 +99,10 @@ export const Button = styled.button`
 
   :hover {
     background-color: rgba(25, 115, 232, 0.9);
+  }
+
+  :disabled {
+    background-color: rgba(25, 115, 232, 0.5);
   }
 `;
 

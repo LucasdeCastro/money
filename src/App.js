@@ -36,11 +36,16 @@ const enhancer = compose(
   )
 );
 
-const App = ({ showFeature, addConnect, dispatch, ...props }) => (
+const App = ({ addConnect }) => (
   <Provider store={store}>
     <div>
       <h1>Ola mundo</h1>
-      <Expenses.build onSubmit={addConnect} />
+      <Expenses.build
+        onSubmit={(form, { reset }) => {
+          reset();
+          addConnect(form);
+        }}
+      />
     </div>
   </Provider>
 );

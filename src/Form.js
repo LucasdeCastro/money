@@ -6,9 +6,11 @@ import { input, select } from "./components/FormComponents";
 const FormTemplate = new DyForm(
   { input, select },
   {
-    submit: ({ label = "Save" }) => (
+    submit: ({ label = "Save", pristine, submitting }) => (
       <FieldGroup>
-        <Button type={"submit"}>{label}</Button>
+        <Button disabled={pristine || submitting} type={"submit"}>
+          {label}
+        </Button>
       </FieldGroup>
     )
   },
