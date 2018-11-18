@@ -6,6 +6,8 @@ const TYPES = {
   REHYDRATE: "persist/REHYDRATE"
 };
 
+export const add = payload => ({ type: TYPES.ADD_SPENT, payload });
+
 const expenses = (state = [], { type, payload }) => {
   switch (type) {
     case TYPES.ADD_SPENT:

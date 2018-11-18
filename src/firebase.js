@@ -79,7 +79,10 @@ const persistFirebase = (db, store, keys) => {
               store.dispatch({
                 type: TYPES.SET_REHYDRATE_FIREBASE,
                 payload: keys.reduce(
-                  (acc, key) => ({ ...acc, [key]: data[month][key] }),
+                  (acc, key) => ({
+                    ...acc,
+                    [key]: data[month] ? data[month][key] : data[key]
+                  }),
                   {}
                 )
               });
@@ -117,7 +120,7 @@ const firebaseMiddleware = middlewareConfig => {
         const previosState = store.getState();
         next(action);
         const nextState = store.getState();
-        console.log(firebase.auth().currentUser);
+
         const userId =
           firebase.auth().currentUser && firebase.auth().currentUser.uid;
 
