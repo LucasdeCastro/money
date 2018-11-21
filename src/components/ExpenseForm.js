@@ -5,13 +5,15 @@ const Expenses = Form.create("expenses")
     {
       name: "name",
       type: "input",
-      props: { placeholder: "Nome" }
+      props: { placeholder: "Nome" },
+      validate: [{ name: "required", message: "O nome do gasto é obrigatório" }]
     },
     {
       name: "value",
       type: "input",
       props: { placeholder: "Valor" },
       validate: [
+        { name: "required", message: "O valor é obrigatório" },
         { name: "onlyNumber", message: "Esse campo só pode ter números" }
       ]
     },
@@ -21,10 +23,11 @@ const Expenses = Form.create("expenses")
       props: {
         placeholder: "Tipo",
         options: [{ value: "Fixa", key: "F" }, { value: "Prazo", key: "P" }]
-      }
+      },
+      validate: [{ name: "required", message: "O tipo é obrigatório" }]
     }
   )
-  .workflow({
+  .workflows({
     name: "type",
     values: ["P"],
     fields: [
@@ -35,6 +38,10 @@ const Expenses = Form.create("expenses")
           placeholder: "Em quantas vezes?"
         },
         validate: [
+          {
+            name: "required",
+            message: "A quantidade de parcelas de é obrigatória"
+          },
           { name: "onlyNumber", message: "Esse campo só pode ter números" }
         ]
       }
