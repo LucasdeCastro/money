@@ -9,11 +9,38 @@ import {
   SpentValue,
   SpentButtons,
   ListContainer,
+  SpentContainer,
   Loading
 } from "./index";
 import { connect } from "react-redux";
 import { compose, branch, renderComponent, withProps } from "recompose";
 import { paid, remove, unPaid } from "../reducers/expenses";
+
+const sumlist = (list, start = 0) =>
+  list.reduce((acc, { value: vl }) => acc + vl, start);
+
+const sumNegative = (list, start = 0) =>
+  list.reduce(
+    (acc, { value: vl }) => (vl < 0 ? acc + Math.abs(vl) : acc),
+    start
+  );
+
+const rifle = (list, value) =>
+  list.reduce((acc, { value: vl }) => acc - vl, value);
+
+const filterGroup = list =>
+  list.filter(({ name }) => name.split("-").length <= 1);
+
+const reduceGroup = (acc, item) => {
+  const name = item.name.split("-");
+
+  if (name.length > 1) {
+    const key = name[0].toUpperCase().trim();
+    if (acc[key]) acc[key].push(item);
+    else acc[key] = [item];
+  }
+  return acc;
+};
 
 const numberToReal = number => {
   if (!number) return "R$ 0 ";
@@ -47,22 +74,75 @@ const SpentCard = ({
   const { name, value, type, lastUpdate } = spent;
   return (
     <Spent negative={value < 0}>
-      <SpentName>{name}</SpentName>
-      <SpentName>{type}</SpentName>
-      {paid && <SpentValue>{formatDate(lastUpdate)}</SpentValue>}
-      <SpentValue>{numberToReal(value)}</SpentValue>
+      <SpentContainer>
+        <SpentName>{name}</SpentName>
+        <SpentName>{type}</SpentName>
+        {paid && <SpentValue>{formatDate(lastUpdate)}</SpentValue>}
+        <SpentValue>{numberToReal(value)}</SpentValue>
+      </SpentContainer>
       <SpentButtons>
-        {!paid && <Button onClick={() => paidClick(spent)}>Paid</Button>}
-        {paid && <Button onClick={() => unPaidClick(spent)}>Owe</Button>}
-        <Button onClick={() => removeClick(spent)}>Remove</Button>
+        {paid ? (
+          <Button secondary onClick={() => unPaidClick(spent)}>
+            Owe
+          </Button>
+        ) : (
+          <Button secondary onClick={() => paidClick(spent)}>
+            Paid
+          </Button>
+        )}
+
+        <Button secondary onClick={() => removeClick(spent)}>
+          Remove
+        </Button>
       </SpentButtons>
     </Spent>
   );
 };
 
+const SpentTitle = ({
+  name,
+  total,
+  values,
+  balance,
+  paidClick,
+  negativeTotal,
+  isGroup = false
+}) => (
+  <Title isGroup={isGroup}>
+    <TitleText>{name}</TitleText>
+    <Values isGroup={isGroup} negative={total < 0}>
+      Total {numberToReal(total)}
+    </Values>
+
+    {balance !== undefined && (
+      <Values negative={balance < 0}>Saldo {numberToReal(balance)}</Values>
+    )}
+
+    {!!negativeTotal && (
+      <Values blue negative={negativeTotal < 0}>
+        Receber {numberToReal(negativeTotal)}
+      </Values>
+    )}
+
+    {isGroup && (
+      <Button
+        withoutMargin
+        onClick={() =>
+          values.map((spent, key) =>
+            setTimeout(() => paidClick(spent), 100 * key)
+          )
+        }
+      >
+        All paid
+      </Button>
+    )}
+  </Title>
+);
+
 const List = ({
   topay,
   paid,
+  groupToPay,
   paidBalance,
   pendentTotal,
   pendentBalance,
@@ -73,18 +153,14 @@ const List = ({
   negativeTotal
 }) => (
   <ListContainer>
-    <Title key="topay">
-      <TitleText>Pendentes</TitleText>
-      <Values negative={pendentTotal < 0}>
-        Total {numberToReal(pendentTotal)}
-      </Values>
-      <Values negative={pendentBalance < 0}>
-        Saldo {numberToReal(pendentBalance)}
-      </Values>
-      <Values blue negative={negativeTotal < 0}>
-        Receber {numberToReal(negativeTotal)}
-      </Values>
-    </Title>
+    <SpentTitle
+      key={"topay"}
+      name={"Pendentes"}
+      total={pendentTotal}
+      balance={pendentBalance}
+      negativeTotal={negativeTotal}
+    />
+
     {topay.map((spent, key) => (
       <SpentCard
         spent={spent}
@@ -93,6 +169,30 @@ const List = ({
         removeClick={removeConnect}
       />
     ))}
+
+    {groupToPay.map(([name, values]) => (
+      <ListContainer>
+        <SpentTitle
+          isGroup
+          key={name}
+          name={name}
+          values={values}
+          background={"#F6F8FA"}
+          paidClick={paidConnect}
+          total={sumlist(values)}
+        />
+
+        {values.map((spent, key) => (
+          <SpentCard
+            spent={{ ...spent, name: spent.name.split("-")[1] }}
+            key={`${key}--group`}
+            paidClick={paidConnect}
+            removeClick={removeConnect}
+          />
+        ))}
+      </ListContainer>
+    ))}
+
     <Title key="paid">
       <TitleText>Pagos</TitleText>
       <Values negative={paidTotal < 0}>Total {numberToReal(paidTotal)}</Values>
@@ -114,22 +214,22 @@ const List = ({
 
 const enhancer = compose(
   connect(
-    ({ expenses, salary, firebase }) => ({
+    ({ expenses: { topay, ...expenses }, salary, firebase }) => ({
       ...expenses,
+      _topay: topay,
+      topay: filterGroup(topay),
+      groupToPay: Object.entries(topay.reduce(reduceGroup, {})),
       firebase,
       salary: salary.value
     }),
     { paidConnect: paid, removeConnect: remove, unPaidConnect: unPaid }
   ),
-  withProps(({ topay, paid, salary }) => ({
-    negativeTotal: topay.reduce(
-      (acc, { value: vl }) => (vl < 0 ? acc + Math.abs(vl) : acc),
-      0
-    ),
-    pendentTotal: topay.reduce((acc, { value: vl }) => acc + vl, 0),
-    pendentBalance: topay.reduce((acc, { value: vl }) => acc - vl, salary),
-    paidTotal: paid.reduce((acc, { value: vl }) => acc + vl, 0),
-    paidBalance: paid.reduce((acc, { value: vl }) => acc - vl, salary)
+  withProps(({ _topay, paid, salary }) => ({
+    negativeTotal: sumNegative(_topay),
+    pendentTotal: sumlist(_topay),
+    pendentBalance: rifle(_topay, salary),
+    paidTotal: sumlist(paid),
+    paidBalance: rifle(paid, salary)
   })),
   branch(props => props.firebase.loading, renderComponent(Loading))
 );

@@ -25,10 +25,9 @@ const AddSpent = props => {
     <AddForm>
       <Title>Adicionar novo gasto</Title>
       <Input
+        type="text"
         placeholder="Nome"
         innerRef={ref => (refs.name = ref)}
-        type="text"
-        maxLength={20}
       />
       <Input
         placeholder="Valor"

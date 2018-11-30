@@ -31,11 +31,7 @@ const enhancer = compose(
   withReducer("showFeature", "dispatch", toggleFeature),
   branch(
     () => !localStorage.getItem("access_token"),
-    renderComponent(() => (
-      <Container>
-        <Login />
-      </Container>
-    ))
+    renderComponent(() => <Login />)
   )
 );
 

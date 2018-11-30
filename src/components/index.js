@@ -28,7 +28,7 @@ export const Container = styled.div`
   padding: 20px;
   width: 100%;
   border: 1px solid #eee;
-  max-width: 700px;
+  max-width: 800px;
   background: #fff;
   margin: 20px;
   border-radius: 3px;
@@ -36,7 +36,8 @@ export const Container = styled.div`
   flex-direction: column;
   min-height: 450px;
   @media only screen and (max-width: 500px) {
-    margin: 10px;
+    margin: 0px;
+    padding: 15px;
   }
 `;
 
@@ -62,6 +63,12 @@ export const Spent = styled.div`
   } 
 `;
 
+export const SpentContainer = styled.div`
+  flex: 1;
+  width: 100%;
+  display: flex;
+`;
+
 export const AddForm = styled.div`
   display: flex;
   flex-direction: column;
@@ -84,15 +91,21 @@ export const Input = styled.input`
   border: 1px solid #eee;
 `;
 export const Button = styled.button`
-  margin: 10px 0px;
-  background: #1a73e8;
+  margin: ${({ withoutMargin }) => (withoutMargin ? "0px" : "10px 0px")};
+  background: ${({ secondary }) =>
+    secondary ? "transparent" : "rgba(25,115,232,0.12)"};
   height: 30px;
-  color: #fff;
-  border-radius: 5px;
-  border: none;
+  color: #1a73e8;
+  font-size: 15px;
+  border-radius: 7px;
+  border: ${({ secondary }) => (secondary ? "1px solid #CCC" : "none")};
   max-width: 120px;
   min-width: 75px;
   cursor: pointer;
+
+  :hover {
+    font-weight: 400;
+  }
 `;
 
 export const Title = styled.div`
@@ -100,14 +113,16 @@ export const Title = styled.div`
   align-items: center;
   font-size: 16px;
   color: #444;
-  padding: 10px;
-  border-radius 2px;
-  background #EEE;
+  padding: 5px 10px;
+  background ${({ isGroup }) => (isGroup ? "transpatent" : "#EEE")};
+  border: 2px solid #EEE;
+  border-radius: 4px;
   margin: 10px 0px;
+  min-height: 30px;
 
   @media only screen and (max-width: 500px) {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: ${({ isGroup }) => (isGroup ? "row" : "column")};
+    align-items: ${({ isGroup }) => (isGroup ? "center" : "flex-start")};;
 
     div {
       padding: 0px;
@@ -141,17 +156,27 @@ export const SpentButtons = styled.div`
   button {
     margin: 0px 5px;
   }
+
+  @media only screen and (max-width: 500px) {
+    width: 100%;
+    display: flex;
+  }
 `;
 
 export const Values = styled.div`
-  flex: 1;
+  flex: ${({ isGroup }) => (isGroup ? 5 : 1)};
   text-align: left;
   padding: 0px 10px;
   color: ${props => (props.blue ? "#1a73e8" : props.negative ? "red" : "#444")};
+
+  @media only screen and (max-width: 500px) {
+    flex: 1;
+  }
 `;
 
 export const ButtonGreen = styled(Button)`
-  background: #14e214;
+  color: #14e214;
+  background: rgba(107, 227, 59, 0.12);
 `;
 
 export const Center = styled.div`

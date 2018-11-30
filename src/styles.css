@@ -3,7 +3,7 @@ body {
   padding: 0px;
   margin: 0px;
   background: #fafbfc;
-  font-family: Arial;
+  font-family: "Roboto", sans-serif;
 }
 
 @keyframes loading {
