@@ -51,7 +51,15 @@ const updateExpenses = state => {
 const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
   switch (type) {
     case TYPES.ADD_SPENT:
-      return { ...state, topay: state.topay.concat(payload).sort(sort) };
+      return {
+        ...state,
+        topay: state.topay
+          .concat({
+            ...payload,
+            parcel: payload.times !== undefined && (payload.parcel || 0)
+          })
+          .sort(sort)
+      };
     case TYPES.REMOVE_SPENT:
       return {
         ...state,
@@ -67,7 +75,15 @@ const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
     case TYPES.PAID_SPENT:
       return {
         ...state,
-        paid: state.paid.concat(payload).sort(sort),
+        paid: state.paid
+          .concat({
+            ...payload,
+            parcel:
+              payload.times !== undefined && payload.parcel < payload.times
+                ? (payload.parcel || 0) + 1
+                : payload.parcel
+          })
+          .sort(sort),
         topay: removeExpense(state.topay, payload)
       };
     case TYPES.REHYDRATE:

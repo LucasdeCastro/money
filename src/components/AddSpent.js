@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import { add } from "../reducers/expenses";
 
 const handleClick = (inputs, addConnect) => () => {
-  const { name, value, type } = inputs;
+  const { name, value, type, times } = inputs;
   if (name.value && value.value) {
     addConnect({
       name: name.value,
+      times: times.value,
       value: parseFloat(value.value),
       type: type.value,
       lastUpdate: Date.now(),
@@ -16,6 +17,7 @@ const handleClick = (inputs, addConnect) => () => {
   }
 
   name.value = "";
+  times.value = "";
   value.value = "";
 };
 
@@ -32,6 +34,11 @@ const AddSpent = props => {
       <Input
         placeholder="Valor"
         innerRef={ref => (refs.value = ref)}
+        type="number"
+      />
+      <Input
+        placeholder="Parcelas"
+        innerRef={ref => (refs.times = ref)}
         type="number"
       />
       <Select innerRef={ref => (refs.type = ref)} selected={"month"}>

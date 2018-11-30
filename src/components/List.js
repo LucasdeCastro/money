@@ -71,28 +71,37 @@ const SpentCard = ({
   unPaidClick,
   removeClick
 }) => {
-  const { name, value, type, lastUpdate } = spent;
+  const { name, value, type, parcel, times, lastUpdate } = spent;
   return (
-    <Spent negative={value < 0}>
+    <Spent
+      disable={times && parcel && times === parcel.toString()}
+      negative={value < 0}
+    >
       <SpentContainer>
-        <SpentName>{name}</SpentName>
+        <SpentName>
+          {name} {times ? `- ${parcel} de ${times}` : ""}
+        </SpentName>
         <SpentName>{type}</SpentName>
-        {paid && <SpentValue>{formatDate(lastUpdate)}</SpentValue>}
+        <SpentValue>{formatDate(lastUpdate)}</SpentValue>
         <SpentValue>{numberToReal(value)}</SpentValue>
       </SpentContainer>
       <SpentButtons>
         {paid ? (
-          <Button secondary onClick={() => unPaidClick(spent)}>
-            Owe
+          <Button
+            secondary
+            onClick={() => unPaidClick(spent)}
+            disabled={times && parcel && times === parcel.toString()}
+          >
+            Pendente
           </Button>
         ) : (
           <Button secondary onClick={() => paidClick(spent)}>
-            Paid
+            Tá pago
           </Button>
         )}
 
         <Button secondary onClick={() => removeClick(spent)}>
-          Remove
+          Remover
         </Button>
       </SpentButtons>
     </Spent>
@@ -133,7 +142,7 @@ const SpentTitle = ({
           )
         }
       >
-        All paid
+        Pagar todos
       </Button>
     )}
   </Title>

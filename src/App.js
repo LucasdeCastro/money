@@ -41,8 +41,11 @@ const App = ({ showFeature, dispatch }) => (
       <Container>
         <TitleContainer>
           <h3>Github - Money</h3>
-          <Button onClick={() => dispatch({ type: TOGGLE })}>
-            {showFeature ? "Hide" : "Show"}
+          <Button
+            secondary={!showFeature}
+            onClick={() => dispatch({ type: TOGGLE })}
+          >
+            {showFeature ? "Esconder" : "Adicionar"}
           </Button>
           <ButtonGreen onClick={githubLogout}>Logout</ButtonGreen>
         </TitleContainer>

@@ -49,8 +49,15 @@ export const Spent = styled.div`
   border-bottom 1px solid #eee;
   align-items: center;
   padding: 0px 10px;
+  color: ${props => (props.negative ? "#1a73e8" : "#444")};
 
-  color: ${props => (props.negative ? "#1a73e8" : "#444")}
+  div:first-child{
+    opacity: ${({ disable }) => (disable ? 0.5 : 1)};
+  }
+  
+  div:last-child button:first-child{
+    opacity: ${({ disable }) => (disable ? 0.5 : 1)};
+  }
 
   @media only screen and (max-width: 500px) {
     padding: 5px;
@@ -64,7 +71,7 @@ export const Spent = styled.div`
 `;
 
 export const SpentContainer = styled.div`
-  flex: 1;
+  flex: 3;
   width: 100%;
   display: flex;
 `;
@@ -104,7 +111,8 @@ export const Button = styled.button`
   cursor: pointer;
 
   :hover {
-    font-weight: 400;
+    background: ${({ secondary }) =>
+      secondary ? "rgba(244, 244, 244, 0.4)" : "rgba(25,115,232,0.09)"};
   }
 `;
 
@@ -177,6 +185,13 @@ export const Values = styled.div`
 export const ButtonGreen = styled(Button)`
   color: #14e214;
   background: rgba(107, 227, 59, 0.12);
+
+  :hover {
+    background: ${({ secondary }) =>
+      secondary
+        ? "rgba(244, 244, 244, 0.4)"
+        : "background: rgba(107, 227, 59, 0.9)"};
+  }
 `;
 
 export const Center = styled.div`
