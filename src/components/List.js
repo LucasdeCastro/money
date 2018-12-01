@@ -59,9 +59,19 @@ const formatDate = time => {
     .toString()
     .padStart(2, "0");
 
+  const hour = date
+    .getHours()
+    .toString()
+    .padStart(2, "0");
+
+  const minute = date
+    .getMinutes()
+    .toString()
+    .padStart(2, "0");
+
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
 
-  return `${day}/${month}/${date.getFullYear()}`;
+  return `${day}/${month} ${hour}:${minute}`;
 };
 
 const SpentCard = ({
@@ -71,17 +81,20 @@ const SpentCard = ({
   unPaidClick,
   removeClick
 }) => {
-  const { name, value, type, parcel, times, lastUpdate } = spent;
+  const { name, value, parcel, times, lastUpdate } = spent;
+  const parcelString = parcel ? parcel.toString().padStart(2, "0") : "";
   return (
     <Spent
       disable={times && parcel && times === parcel.toString()}
       negative={value < 0}
     >
       <SpentContainer>
+        <SpentName>{name}</SpentName>
         <SpentName>
-          {name} {times ? `- ${parcel} de ${times}` : ""}
+          <b>
+            {times ? `parcela ${parcelString}/${times.padStart(2, "0")}` : ""}
+          </b>
         </SpentName>
-        <SpentName>{type}</SpentName>
         <SpentValue>{formatDate(lastUpdate)}</SpentValue>
         <SpentValue>{numberToReal(value)}</SpentValue>
       </SpentContainer>
@@ -180,7 +193,7 @@ const List = ({
     ))}
 
     {groupToPay.map(([name, values]) => (
-      <ListContainer>
+      <ListContainer key={`group-${name}`}>
         <SpentTitle
           isGroup
           key={name}
