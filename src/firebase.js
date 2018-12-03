@@ -32,7 +32,6 @@ export const firebaseReducer = (state = { loading: true }, { type }) => {
 
 const createGithubProvider = () => {
   const provider = new firebase.auth.GithubAuthProvider();
-  provider.addScope("repo");
   provider.setCustomParameters({
     allow_signup: "false"
   });
