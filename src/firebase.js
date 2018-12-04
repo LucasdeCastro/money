@@ -81,6 +81,12 @@ const persistFirebase = (db, store, keys) => {
                 {}
               )
             });
+          })
+          .catch(() => {
+            store.dispatch({
+              type: TYPES.SET_REHYDRATE_FIREBASE,
+              payload: {}
+            });
           });
       } else {
         loop();

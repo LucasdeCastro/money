@@ -82,7 +82,7 @@ const SpentCard = ({
   removeClick
 }) => {
   const { name, value, parcel, times, lastUpdate } = spent;
-  const parcelString = parcel ? parcel.toString().padStart(2, "0") : "";
+  const parcelString = parcel ? parcel.toString().padStart(2, "0") : "0";
   return (
     <Spent
       disable={times && parcel && times === parcel.toString()}

@@ -32,7 +32,11 @@ const sort = (a, b) => (a.value > b.value ? -1 : a.value === b.value ? 0 : 1);
 const updateExpenses = state => {
   const { paid, topay } = state.paid.reduce(
     (acc, spent) => {
-      if (spent.type === "month" && spent.lastUpdate <= getFirstDayOfMonth())
+      if (
+        spent.type === "month" &&
+        spent.lastUpdate <= getFirstDayOfMonth() &&
+        !spent.times
+      )
         return { ...acc, topay: acc.topay.concat(spent) };
       if (spent.type === "day" && spent.lastUpdate <= getDateZeroHour())
         return { ...acc, topay: acc.topay.concat(spent) };
