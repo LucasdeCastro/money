@@ -45,7 +45,7 @@ const AddSpent = props => {
         <option value={"month"}>Mensal</option>
         <option value={"day"}>Diário</option>
       </Select>
-      <Button onClick={handleClick(refs, props.addConnect)}>ADD</Button>
+      <Button onClick={handleClick(refs, props.addConnect)}>Salvar</Button>
     </AddForm>
   );
 };

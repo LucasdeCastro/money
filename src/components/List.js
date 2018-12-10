@@ -8,6 +8,7 @@ import {
   SpentName,
   SpentValue,
   SpentButtons,
+  RowContainer,
   ListContainer,
   SpentContainer,
   Loading
@@ -89,16 +90,22 @@ const SpentCard = ({
       negative={value < 0}
     >
       <SpentContainer>
-        <SpentName>{name}</SpentName>
-        <SpentName>
+        <SpentName size={2} title={name}>
+          {name}
+        </SpentName>
+        <SpentName mobile={false}>
           <b>
             {times ? `parcela ${parcelString}/${times.padStart(2, "0")}` : ""}
           </b>
         </SpentName>
-        <SpentValue>{formatDate(lastUpdate)}</SpentValue>
-        <SpentValue>{numberToReal(value)}</SpentValue>
+        <SpentValue mobile={false}>{formatDate(lastUpdate)}</SpentValue>
+        <SpentValue right>{numberToReal(value)}</SpentValue>
       </SpentContainer>
       <SpentButtons>
+        <SpentValue mobile>{formatDate(lastUpdate)}</SpentValue>
+        <SpentName mobile>
+          <b>{times ? `${parcelString}/${times.padStart(2, "0")}` : ""}</b>
+        </SpentName>
         {paid ? (
           <Button
             secondary
@@ -132,19 +139,21 @@ const SpentTitle = ({
 }) => (
   <Title isGroup={isGroup}>
     <TitleText>{name}</TitleText>
-    <Values isGroup={isGroup} negative={total < 0}>
-      Total {numberToReal(total)}
-    </Values>
-
-    {balance !== undefined && (
-      <Values negative={balance < 0}>Saldo {numberToReal(balance)}</Values>
-    )}
-
-    {!!negativeTotal && (
-      <Values blue negative={negativeTotal < 0}>
-        Receber {numberToReal(negativeTotal)}
+    <RowContainer full>
+      <Values isGroup={isGroup} negative={total < 0}>
+        Total {numberToReal(total)}
       </Values>
-    )}
+
+      {balance !== undefined && (
+        <Values negative={balance < 0}>Saldo {numberToReal(balance)}</Values>
+      )}
+
+      {!!negativeTotal && (
+        <Values blue negative={negativeTotal < 0}>
+          Receber {numberToReal(negativeTotal)}
+        </Values>
+      )}
+    </RowContainer>
 
     {isGroup && (
       <Button
@@ -215,13 +224,13 @@ const List = ({
       </ListContainer>
     ))}
 
-    <Title key="paid">
-      <TitleText>Pagos</TitleText>
-      <Values negative={paidTotal < 0}>Total {numberToReal(paidTotal)}</Values>
-      <Values negative={paidBalance < 0}>
-        Saldo {numberToReal(paidBalance)}
-      </Values>
-    </Title>
+    <SpentTitle
+      key={"paid"}
+      name={"Pagos"}
+      total={paidTotal}
+      balance={paidBalance}
+    />
+
     {paid.map((spent, key) => (
       <SpentCard
         paid={true}

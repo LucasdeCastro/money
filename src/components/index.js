@@ -8,6 +8,11 @@ export const Main = styled.div`
 export const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex: 1;
+
+  @media only screen and (max-width: 500px) {
+    width: ${({ full = false }) => (full ? "100%" : "auto")};
+  }
 `;
 
 export const TitleContainer = RowContainer.extend`
@@ -28,7 +33,7 @@ export const Container = styled.div`
   padding: 20px;
   width: 100%;
   border: 1px solid #eee;
-  max-width: 800px;
+  max-width: 950px;
   background: #fff;
   margin: 20px;
   border-radius: 3px;
@@ -119,6 +124,7 @@ export const Button = styled.button`
 export const Title = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   font-size: 16px;
   color: #444;
   padding: 5px 10px;
@@ -134,7 +140,7 @@ export const Title = styled.div`
 
     div {
       padding: 0px;
-      margin: 10px 0px;
+      margin: 5px 0px;
     }
   }
 `;
@@ -149,11 +155,33 @@ export const ListContainer = styled.div`
 `;
 
 export const SpentName = styled.div`
-  flex: 1;
+  flex: ${({ size = 1 }) => `${size}`};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: ${({ mobile = false }) => (mobile ? "none" : "flex")};
+  @media only screen and (max-width: 500px) {
+    display: ${({ mobile }) =>
+      mobile || mobile === undefined ? "flex" : "none"};
+
+    b {
+      width: 100%;
+      text-align: center;
+    }
+  }
 `;
 
 export const SpentValue = styled.div`
   flex: 1;
+  display: ${({ mobile = false }) => (mobile ? "none" : "flex")};
+
+  @media only screen and (max-width: 500px) {
+    flex: none;
+    display: ${({ mobile }) =>
+      mobile || mobile === undefined ? "flex" : "none"};
+    text-align: ${({ right }) => (right ? "right" : "left")};
+  }
 `;
 
 export const SpentButtons = styled.div`
@@ -176,10 +204,6 @@ export const Values = styled.div`
   text-align: left;
   padding: 0px 10px;
   color: ${props => (props.blue ? "#1a73e8" : props.negative ? "red" : "#444")};
-
-  @media only screen and (max-width: 500px) {
-    flex: 1;
-  }
 `;
 
 export const ButtonGreen = styled(Button)`
