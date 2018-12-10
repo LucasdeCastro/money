@@ -27,7 +27,13 @@ const removeExpense = (list, payload) => {
   );
 };
 
-const sort = (a, b) => (a.value > b.value ? -1 : a.value === b.value ? 0 : 1);
+const sort = (a, b) => {
+  if (a.times !== undefined || b.times !== undefined) return -1;
+
+  if (a.value > b.value) return -1;
+  if (a.value === b.value) return 0;
+  return 1;
+};
 
 const updateExpenses = state => {
   const { paid, topay } = state.paid.reduce(
@@ -50,6 +56,12 @@ const updateExpenses = state => {
     topay: state.topay.concat(topay).sort(sort),
     paid: paid.sort(sort)
   };
+};
+
+const getParcel = ({ parcel, times }) => {
+  if (times === undefined) return null;
+  if (parcel < times) return (parcel || 0) + 1;
+  return parcel;
 };
 
 const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
@@ -82,10 +94,7 @@ const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
         paid: state.paid
           .concat({
             ...payload,
-            parcel:
-              payload.times !== undefined && payload.parcel < payload.times
-                ? (payload.parcel || 0) + 1
-                : payload.parcel
+            parcel: getParcel(payload)
           })
           .sort(sort),
         topay: removeExpense(state.topay, payload)
