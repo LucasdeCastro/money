@@ -15,7 +15,7 @@ export const RowContainer = styled.div`
   }
 `;
 
-export const TitleContainer = RowContainer.extend`
+export const TitleContainer = Main.extend`
   line-height: 50px;
   border-bottom: 1px solid #eee;
 
@@ -32,6 +32,7 @@ export const TitleContainer = RowContainer.extend`
 export const Container = styled.div`
   padding: 20px;
   width: 100%;
+  height: 100%;
   border: 1px solid #eee;
   max-width: 950px;
   background: #fff;
@@ -40,6 +41,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 450px;
+
   @media only screen and (max-width: 500px) {
     margin: 0px;
     padding: 15px;
