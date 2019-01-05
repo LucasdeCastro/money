@@ -7,15 +7,30 @@ import {
   TitleText,
   SpentName,
   SpentValue,
+  TitleValues,
   SpentButtons,
-  RowContainer,
   ListContainer,
   SpentContainer,
   Loading
 } from "./index";
 import { connect } from "react-redux";
 import { compose, branch, renderComponent, withProps } from "recompose";
-import { paid, remove, unPaid } from "../reducers/expenses";
+import { paid, remove, unPaid, sort } from "../reducers/expenses";
+
+const MONTH_LIST = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
 
 const sumlist = (list, start = 0) =>
   list.reduce((acc, { value: vl }) => acc + vl, start);
@@ -41,6 +56,14 @@ const reduceGroup = (acc, item) => {
     else acc[key] = [item];
   }
   return acc;
+};
+
+const getGroup = topay => {
+  const map = topay.reduce(reduceGroup, {});
+  const list = Object.entries(map);
+  return list.map(([name, values]) => {
+    return [name, values.sort(sort)];
+  });
 };
 
 const numberToReal = number => {
@@ -75,15 +98,23 @@ const formatDate = time => {
   return `${day}/${month} ${hour}:${minute}`;
 };
 
+const getMonthName = (times = 0, parcel = 0) => {
+  if (!times) return "";
+  const month = new Date().getMonth() + (times - parcel);
+  return MONTH_LIST[month];
+};
+
 const SpentCard = ({
   spent,
+  isGroup = false,
   paid = false,
   paidClick,
   unPaidClick,
   removeClick
 }) => {
   const { name, value, parcel, times, lastUpdate } = spent;
-  const parcelString = parcel ? parcel.toString().padStart(2, "0") : "0";
+  const parcelString = parcel ? parcel.toString().padStart(2, "0") : "00";
+  const monthString = getMonthName(times, parcel);
   return (
     <Spent
       disable={times && parcel && times === parcel.toString()}
@@ -95,16 +126,20 @@ const SpentCard = ({
         </SpentName>
         <SpentName mobile={false}>
           <b>
-            {times ? `parcela ${parcelString}/${times.padStart(2, "0")}` : ""}
+            {monthString ? ` ${monthString} - ` : ""}
+            {times ? `${parcelString}/${times.padStart(2, "00")}` : ""}
           </b>
         </SpentName>
         <SpentValue mobile={false}>{formatDate(lastUpdate)}</SpentValue>
         <SpentValue right>{numberToReal(value)}</SpentValue>
       </SpentContainer>
-      <SpentButtons>
+      <SpentButtons isGroup={isGroup}>
         <SpentValue mobile>{formatDate(lastUpdate)}</SpentValue>
         <SpentName mobile>
-          <b>{times ? `${parcelString}/${times.padStart(2, "0")}` : ""}</b>
+          <b>
+            {times ? `${parcelString}/${times.padStart(2, "00")}` : ""}
+            {monthString || ""}
+          </b>
         </SpentName>
         {paid ? (
           <Button
@@ -134,12 +169,14 @@ const SpentTitle = ({
   values,
   balance,
   paidClick,
+  unPaidClick,
   negativeTotal,
+  unPaid = false,
   isGroup = false
 }) => (
   <Title isGroup={isGroup}>
     <TitleText>{name}</TitleText>
-    <RowContainer full>
+    <TitleValues full>
       <Values isGroup={isGroup} negative={total < 0}>
         Total {numberToReal(total)}
       </Values>
@@ -153,7 +190,7 @@ const SpentTitle = ({
           Receber {numberToReal(negativeTotal)}
         </Values>
       )}
-    </RowContainer>
+    </TitleValues>
 
     {isGroup && (
       <Button
@@ -165,6 +202,19 @@ const SpentTitle = ({
         }
       >
         Pagar todos
+      </Button>
+    )}
+
+    {unPaid && (
+      <Button
+        withoutMargin
+        onClick={() =>
+          values.map((spent, key) =>
+            setTimeout(() => unPaidClick(spent), 100 * key)
+          )
+        }
+      >
+        Todos Pendente
       </Button>
     )}
   </Title>
@@ -215,6 +265,7 @@ const List = ({
 
         {values.map((spent, key) => (
           <SpentCard
+            isGroup
             spent={{ ...spent, name: spent.name.split("-")[1] }}
             key={`${key}--group`}
             paidClick={paidConnect}
@@ -225,10 +276,13 @@ const List = ({
     ))}
 
     <SpentTitle
+      unPaid
       key={"paid"}
+      values={paid}
       name={"Pagos"}
       total={paidTotal}
       balance={paidBalance}
+      unPaidClick={unPaidConnect}
     />
 
     {paid.map((spent, key) => (
@@ -249,7 +303,7 @@ const enhancer = compose(
       ...expenses,
       _topay: topay,
       topay: filterGroup(topay),
-      groupToPay: Object.entries(topay.reduce(reduceGroup, {})),
+      groupToPay: getGroup(topay),
       firebase,
       salary: salary.value
     }),

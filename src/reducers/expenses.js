@@ -27,7 +27,7 @@ const removeExpense = (list, payload) => {
   );
 };
 
-const sort = (a, b) => {
+export const sort = (a, b) => {
   if (a.times && a.times !== 0) return -1;
 
   if (a.value > b.value) return -1;
@@ -42,10 +42,12 @@ const updateExpenses = state => {
         spent.type === "month" &&
         spent.lastUpdate <= getFirstDayOfMonth() &&
         !spent.times
-      )
+      ) {
         return { ...acc, topay: acc.topay.concat(spent) };
-      if (spent.type === "day" && spent.lastUpdate <= getDateZeroHour())
+      }
+      if (spent.type === "day" && spent.lastUpdate <= getDateZeroHour()) {
         return { ...acc, topay: acc.topay.concat(spent) };
+      }
       return { ...acc, paid: acc.paid.concat(spent) };
     },
     { topay: [], paid: [] }
@@ -53,7 +55,7 @@ const updateExpenses = state => {
 
   return {
     ...state,
-    topay: state.topay.concat(topay).sort(sort),
+    topay: state.topay.concat(topay),
     paid: paid.sort(sort)
   };
 };
@@ -69,12 +71,10 @@ const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
   case TYPES.ADD_SPENT:
     return {
       ...state,
-      topay: state.topay
-        .concat({
-          ...payload,
-          parcel: payload.times !== undefined && (payload.parcel || 0)
-        })
-        .sort(sort)
+      topay: state.topay.concat({
+        ...payload,
+        parcel: payload.times !== undefined && (payload.parcel || 0)
+      })
     };
   case TYPES.REMOVE_SPENT:
     return {
@@ -85,18 +85,16 @@ const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
   case TYPES.UNPAID_SPENT:
     return {
       ...state,
-      topay: state.topay.concat(payload).sort(sort),
+      topay: state.topay.concat(payload),
       paid: removeExpense(state.paid, payload)
     };
   case TYPES.PAID_SPENT:
     return {
       ...state,
-      paid: state.paid
-        .concat({
-          ...payload,
-          parcel: getParcel(payload)
-        })
-        .sort(sort),
+      paid: state.paid.concat({
+        ...payload,
+        parcel: getParcel(payload)
+      }),
       topay: removeExpense(state.topay, payload)
     };
   case TYPES.REHYDRATE:

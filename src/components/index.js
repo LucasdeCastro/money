@@ -15,6 +15,10 @@ export const RowContainer = styled.div`
   }
 `;
 
+export const TitleValues = RowContainer.extend`
+  flex: 2;
+`;
+
 export const TitleContainer = Main.extend`
   line-height: 50px;
   border-bottom: 1px solid #eee;
@@ -34,7 +38,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   border: 1px solid #eee;
-  max-width: 950px;
+  max-width: 1000px;
   background: #fff;
   margin: 20px;
   border-radius: 3px;
@@ -113,7 +117,6 @@ export const Button = styled.button`
   font-size: 15px;
   border-radius: 7px;
   border: ${({ secondary }) => (secondary ? "1px solid #CCC" : "none")};
-  max-width: 120px;
   min-width: 75px;
   cursor: pointer;
 
@@ -189,10 +192,20 @@ export const SpentValue = styled.div`
 export const SpentButtons = styled.div`
   flex: 1;
   display: flex;
+  min-height: 34px;
   justify-content: flex-end;
 
   button {
     margin: 0px 5px;
+    display: ${({ isGroup }) => (isGroup ? "none" : "block")};
+  }
+
+  cursor: ${({ isGroup }) => (isGroup ? "point" : "default")};
+
+  :hover {
+    button {
+      display: block;
+    }
   }
 
   @media only screen and (max-width: 500px) {
