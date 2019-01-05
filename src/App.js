@@ -19,10 +19,10 @@ import { withReducer, compose, branch, renderComponent } from "recompose";
 const TOGGLE = "TOGGLE";
 const toggleFeature = (flag = false, action) => {
   switch (action.type) {
-    case TOGGLE:
-      return !flag;
-    default:
-      return flag;
+  case TOGGLE:
+    return !flag;
+  default:
+    return flag;
   }
 };
 

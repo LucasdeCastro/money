@@ -21,12 +21,12 @@ const TYPES = {
 
 export const firebaseReducer = (state = { loading: true }, { type }) => {
   switch (type) {
-    case TYPES.SET_REHYDRATE_FIREBASE_LOADING:
-      return { ...state, loading: true };
-    case TYPES.SET_REHYDRATE_FIREBASE:
-      return { ...state, loading: false };
-    default:
-      return state;
+  case TYPES.SET_REHYDRATE_FIREBASE_LOADING:
+    return { ...state, loading: true };
+  case TYPES.SET_REHYDRATE_FIREBASE:
+    return { ...state, loading: false };
+  default:
+    return state;
   }
 };
 
@@ -107,10 +107,10 @@ const firebaseMiddleware = middlewareConfig => {
       const { type, payload } = action;
 
       switch (type) {
-        case TYPES.SET_REHYDRATE_FIREBASE:
-          return reducer({ ...state, ...payload }, action);
-        default:
-          return reducer(state, action);
+      case TYPES.SET_REHYDRATE_FIREBASE:
+        return reducer({ ...state, ...payload }, action);
+      default:
+        return reducer(state, action);
       }
     },
     firebase: store => next => {

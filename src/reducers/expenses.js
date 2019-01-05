@@ -28,7 +28,7 @@ const removeExpense = (list, payload) => {
 };
 
 const sort = (a, b) => {
-  if (a.times !== undefined || b.times !== undefined) return -1;
+  if (a.times && a.times !== 0) return -1;
 
   if (a.value > b.value) return -1;
   if (a.value === b.value) return 0;
@@ -66,43 +66,43 @@ const getParcel = ({ parcel, times }) => {
 
 const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
   switch (type) {
-    case TYPES.ADD_SPENT:
-      return {
-        ...state,
-        topay: state.topay
-          .concat({
-            ...payload,
-            parcel: payload.times !== undefined && (payload.parcel || 0)
-          })
-          .sort(sort)
-      };
-    case TYPES.REMOVE_SPENT:
-      return {
-        ...state,
-        paid: removeExpense(state.paid, payload),
-        topay: removeExpense(state.topay, payload)
-      };
-    case TYPES.UNPAID_SPENT:
-      return {
-        ...state,
-        topay: state.topay.concat(payload).sort(sort),
-        paid: removeExpense(state.paid, payload)
-      };
-    case TYPES.PAID_SPENT:
-      return {
-        ...state,
-        paid: state.paid
-          .concat({
-            ...payload,
-            parcel: getParcel(payload)
-          })
-          .sort(sort),
-        topay: removeExpense(state.topay, payload)
-      };
-    case TYPES.REHYDRATE:
-      return updateExpenses((payload && payload.expenses) || state);
-    default:
-      return state;
+  case TYPES.ADD_SPENT:
+    return {
+      ...state,
+      topay: state.topay
+        .concat({
+          ...payload,
+          parcel: payload.times !== undefined && (payload.parcel || 0)
+        })
+        .sort(sort)
+    };
+  case TYPES.REMOVE_SPENT:
+    return {
+      ...state,
+      paid: removeExpense(state.paid, payload),
+      topay: removeExpense(state.topay, payload)
+    };
+  case TYPES.UNPAID_SPENT:
+    return {
+      ...state,
+      topay: state.topay.concat(payload).sort(sort),
+      paid: removeExpense(state.paid, payload)
+    };
+  case TYPES.PAID_SPENT:
+    return {
+      ...state,
+      paid: state.paid
+        .concat({
+          ...payload,
+          parcel: getParcel(payload)
+        })
+        .sort(sort),
+      topay: removeExpense(state.topay, payload)
+    };
+  case TYPES.REHYDRATE:
+    return updateExpenses((payload && payload.expenses) || state);
+  default:
+    return state;
   }
 };
 

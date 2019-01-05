@@ -119,7 +119,7 @@ export const Button = styled.button`
 
   :hover {
     background: ${({ secondary }) =>
-      secondary ? "rgba(244, 244, 244, 0.4)" : "rgba(25,115,232,0.09)"};
+    secondary ? "rgba(244, 244, 244, 0.4)" : "rgba(25,115,232,0.09)"};
   }
 `;
 
@@ -165,7 +165,7 @@ export const SpentName = styled.div`
   display: ${({ mobile = false }) => (mobile ? "none" : "flex")};
   @media only screen and (max-width: 500px) {
     display: ${({ mobile }) =>
-      mobile || mobile === undefined ? "flex" : "none"};
+    mobile || mobile === undefined ? "flex" : "none"};
 
     b {
       width: 100%;
@@ -181,7 +181,7 @@ export const SpentValue = styled.div`
   @media only screen and (max-width: 500px) {
     flex: none;
     display: ${({ mobile }) =>
-      mobile || mobile === undefined ? "flex" : "none"};
+    mobile || mobile === undefined ? "flex" : "none"};
     text-align: ${({ right }) => (right ? "right" : "left")};
   }
 `;
@@ -214,9 +214,9 @@ export const ButtonGreen = styled(Button)`
 
   :hover {
     background: ${({ secondary }) =>
-      secondary
-        ? "rgba(244, 244, 244, 0.4)"
-        : "background: rgba(107, 227, 59, 0.9)"};
+    secondary
+      ? "rgba(244, 244, 244, 0.4)"
+      : "background: rgba(107, 227, 59, 0.9)"};
   }
 `;
 
