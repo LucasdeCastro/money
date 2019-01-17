@@ -1,13 +1,13 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { connect } from "react-redux";
+import { connect, Provider } from "react-redux";
 import { store } from "./store";
 import { githubLogout } from "./firebase";
 import {
   Main,
   Button,
-  Container,
   ButtonGreen,
+  ListContainer,
+  GroupContainer,
   TitleContainer
 } from "./components";
 import List from "./components/List";
@@ -38,26 +38,26 @@ const enhancer = compose(
 const App = ({ showFeature, dispatch }) => (
   <Provider store={store}>
     <Main>
-      <Container>
-        <TitleContainer>
-          <h3>Github - Money</h3>
-          <Button
-            secondary={!showFeature}
-            onClick={() => dispatch({ type: TOGGLE })}
-          >
-            {showFeature ? "Esconder" : "Adicionar"}
-          </Button>
-          <ButtonGreen onClick={githubLogout}>Logout</ButtonGreen>
-        </TitleContainer>
+      <TitleContainer>
+        <h3>Github - Money</h3>
+        <Button
+          secondary={!showFeature}
+          onClick={() => dispatch({ type: TOGGLE })}
+        >
+          {showFeature ? "Esconder" : "Adicionar"}
+        </Button>
+        <ButtonGreen onClick={githubLogout}>Logout</ButtonGreen>
+      </TitleContainer>
 
+      <ListContainer>
         {showFeature && (
-          <div>
+          <GroupContainer>
             <Salary />
             <AddSpent />
-          </div>
+          </GroupContainer>
         )}
         <List />
-      </Container>
+      </ListContainer>
     </Main>
   </Provider>
 );

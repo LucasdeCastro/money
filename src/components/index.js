@@ -18,21 +18,33 @@ export const RowContainer = styled.div`
 export const ColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
-  border: ${props => (props.isGroup ? "2px solid #EEE" : "none")};
+  width: 100%;
 `;
 
 export const TitleValues = RowContainer.extend`
   flex: 2;
+  display: flex;
+
+  @media only screen and (max-width: 500px) {
+  }
 `;
 
 export const TitleContainer = Main.extend`
-  line-height: 50px;
-  border-bottom: 1px solid #eee;
+  width: 100%;
+  position: fixed;
+  top: -0px;
+  background: #fff;
+  border: 0px;
+  left: 0px;
+  padding: 0px 28px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
 
   h3 {
     flex: 1;
     margin: 0px;
+    display: flex;
+    align-items: center;
   }
 
   button {
@@ -63,6 +75,7 @@ export const List = styled.div``;
 
 export const Spent = styled.div`
   display: flex;
+  width: 100%;
   min-height: 45px;
   border-bottom 1px solid #eee;
   align-items: center;
@@ -97,6 +110,16 @@ export const SpentContainer = styled.div`
 export const AddForm = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 20px;
+
+  h2 {
+    padding: 0px;
+    font-size: 20px;
+  }
+
+  button {
+    max-width: 130px;
+  }
 `;
 
 export const Select = styled.select`
@@ -108,6 +131,10 @@ export const Select = styled.select`
   background: #fff;
 `;
 
+export const InputLabel = styled.label`
+  margin-top: 10px;
+`;
+
 export const Input = styled.input`
   height: 28px;
   margin-top: 4px;
@@ -116,16 +143,29 @@ export const Input = styled.input`
   border: 1px solid #eee;
 `;
 export const Button = styled.button`
+  display: flex;
   margin: ${({ withoutMargin }) => (withoutMargin ? "0px" : "10px 0px")};
   background: ${({ secondary }) =>
     secondary ? "transparent" : "rgba(25,115,232,0.12)"};
   height: 30px;
   color: #1a73e8;
+  padding: 0px 5px;
   font-size: 15px;
   border-radius: 7px;
   border: ${({ secondary }) => (secondary ? "1px solid #CCC" : "none")};
-  min-width: 75px;
+  min-width: 40px;
   cursor: pointer;
+  justify-content: center;
+
+  ${props =>
+    props.icon &&
+    `
+      border: 0px;
+      color: #CCC:
+      font-size: 13px;
+      min-width: 30px;
+      background: transparent;
+    `}
 
   :hover {
     background: ${({ secondary }) =>
@@ -133,7 +173,7 @@ export const Button = styled.button`
   }
 `;
 
-export const Title = styled.div`
+export const Title = styled.h2`
   display: flex;
   flex: 1;
   align-items: center;
@@ -141,12 +181,12 @@ export const Title = styled.div`
   font-size: 16px;
   color: #444;
   padding: 5px 10px;
-  background ${({ isGroup }) => (isGroup ? "transpatent" : "#EEE")};
+  background: #fff;
   min-height: 30px;
 
   @media only screen and (max-width: 500px) {
     flex-direction: ${({ isGroup }) => (isGroup ? "row" : "column")};
-    align-items: ${({ isGroup }) => (isGroup ? "center" : "flex-start")};;
+    align-items: ${({ isGroup }) => (isGroup ? "center" : "flex-start")};
 
     div {
       padding: 0px;
@@ -155,13 +195,38 @@ export const Title = styled.div`
   }
 `;
 
-export const TitleText = styled.div`
+export const TitleText = styled.h2`
   flex: 1;
   font-weight: 600;
+  padding: 0px;
+  margin: 5px;
+  font-size: 20px;
 `;
 
 export const ListContainer = styled.div`
   animation: fade-in 1s;
+  margin-top: 40px;
+  width: 100%;
+  padding: 0px 10px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const GroupContainer = ListContainer.extend`
+  background: #fff;
+  box-shadow: 0px 0px 3px #eee;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  margin: 20px 0px;
+  width: 800px;
+  max-width: 100%;
+
+  @media only screen and (max-width: 500px) {
+    margin: 10px;
+  }
 `;
 
 export const SpentName = styled.div`
@@ -221,9 +286,15 @@ export const SpentButtons = styled.div`
 
 export const Values = styled.div`
   flex: ${({ isGroup }) => (isGroup ? 5 : 1)};
+  display: flex;
   text-align: left;
   padding: 0px 10px;
-  color: ${props => (props.blue ? "#1a73e8" : props.negative ? "red" : "#444")};
+  align-items: center;
+  justify-content: center;
+  color: ${({ blue, negative, noColor }) => {
+    if (noColor) return "#444";
+    return blue ? "#1a73e8" : negative ? "red" : "#14e214";
+  }};
 `;
 
 export const ButtonGreen = styled(Button)`
@@ -264,7 +335,8 @@ export const TimelineTitle = styled.div`
   font-weight: 500;
   text-align: center;
   font-size: 12px;
-  background: ${props => (props.reverse ? "rgba(0,0,0,.05)" : "#FFF")};
+  border-bottom: 1px solid #eee;
+  background: #eee;
 `;
 
 export const TimelineValue = TimelineTitle.extend`
@@ -272,12 +344,21 @@ export const TimelineValue = TimelineTitle.extend`
 `;
 
 export const TimelineContainer = ColumnContainer.extend`
-  border: 1px solid #eee;
-  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
   margin-bottom: 0px;
+  overflow: auto;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-export const TimelineHeaderContainer = styled.div`
+export const TimelineItem = styled.div`
+  flex: 1;
   display: flex;
-  border-bottom: 1px solid #eee;
+  flex-direction: column;
+  min-width: 70px;
 `;

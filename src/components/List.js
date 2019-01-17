@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose, branch, renderComponent, withProps } from "recompose";
-import { ListContainer, Loading } from "./index";
+import { ListContainer, Loading, GroupContainer } from "./index";
 import { paid, remove, unPaid } from "../reducers/expenses";
 import { rifle, sumlist, getGroup, filterGroup, sumNegative } from "../utils";
 import SpentCard from "./SpentCard";
@@ -22,26 +22,28 @@ const List = ({
   negativeTotal
 }) => (
   <ListContainer>
-    <SpentTitle
-      key={"topay"}
-      values={_topay}
-      name={"Pendentes"}
-      total={pendentTotal}
-      balance={pendentBalance}
-      negativeTotal={negativeTotal}
-    />
-
-    {topay.map((spent, key) => (
-      <SpentCard
-        spent={spent}
-        key={`${key}-topay`}
-        paidClick={paidConnect}
-        removeClick={removeConnect}
+    <GroupContainer key={"group-others"}>
+      <SpentTitle
+        key={"topay"}
+        values={_topay}
+        name={"Pendentes"}
+        total={pendentTotal}
+        balance={pendentBalance}
+        negativeTotal={negativeTotal}
       />
-    ))}
+
+      {topay.map((spent, key) => (
+        <SpentCard
+          spent={spent}
+          key={`${key}-topay`}
+          paidClick={paidConnect}
+          removeClick={removeConnect}
+        />
+      ))}
+    </GroupContainer>
 
     {groupToPay.map(([name, values]) => (
-      <ListContainer key={`group-${name}`}>
+      <GroupContainer key={`group-${name}`}>
         <SpentTitle
           isGroup
           key={name}
@@ -61,28 +63,29 @@ const List = ({
             removeClick={removeConnect}
           />
         ))}
-      </ListContainer>
+      </GroupContainer>
     ))}
-
-    <SpentTitle
-      unPaid
-      key={"paid"}
-      values={paid}
-      name={"Pagos"}
-      total={paidTotal}
-      balance={paidBalance}
-      unPaidClick={unPaidConnect}
-    />
-
-    {paid.map((spent, key) => (
-      <SpentCard
-        paid={true}
-        spent={spent}
-        key={`${key}-paid`}
+    <GroupContainer>
+      <SpentTitle
+        unPaid
+        key={"paid"}
+        values={paid}
+        name={"Pagos"}
+        total={paidTotal}
+        balance={paidBalance}
         unPaidClick={unPaidConnect}
-        removeClick={removeConnect}
       />
-    ))}
+
+      {paid.map((spent, key) => (
+        <SpentCard
+          paid={true}
+          spent={spent}
+          key={`${key}-paid`}
+          unPaidClick={unPaidConnect}
+          removeClick={removeConnect}
+        />
+      ))}
+    </GroupContainer>
   </ListContainer>
 );
 

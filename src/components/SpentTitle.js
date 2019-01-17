@@ -6,12 +6,12 @@ import {
   Button,
   TitleText,
   TitleValues,
+  TimelineItem,
   RowContainer,
   TimelineTitle,
   TimelineValue,
   ColumnContainer,
-  TimelineContainer,
-  TimelineHeaderContainer
+  TimelineContainer
 } from "./index";
 
 const calcValue = (values, index) => {
@@ -26,24 +26,29 @@ const calcValue = (values, index) => {
   }, 0);
 };
 
-const TimelineHeader = () => {
+const TimelineCard = ({ values }) => {
   const currentMonth = new Date().getMonth() + 1;
-  return MONTH_LIST.slice(currentMonth, MONTH_LIST.length).map(
-    (month, index) => (
-      <TimelineTitle key={`${month}-${index}`}>{month}</TimelineTitle>
-    )
-  );
-};
+  return MONTH_LIST.slice(currentMonth, MONTH_LIST.length)
+    .reduce((acc, month, index) => {
+      const value = calcValue(values, index);
+      if (!acc.length) return [{ month, value }];
 
-const TimelineValues = ({ values }) => {
-  const currentMonth = new Date().getMonth() + 1;
-  return MONTH_LIST.slice(currentMonth, MONTH_LIST.length).map(
-    (month, index) => (
-      <TimelineValue key={`${month}-${index}`} reverse={index % 2}>
-        {numberToReal(calcValue(values, index))}
-      </TimelineValue>
-    )
-  );
+      const last = acc[acc.length - 1];
+      if (last && last.value === value) {
+        const [start] = last.month.split("-");
+        last.month = `${start}-${month}`;
+      } else {
+        acc.push({ month, value });
+      }
+
+      return acc;
+    }, [])
+    .map(({ month, value }, index) => (
+      <TimelineItem key={`${month}-${index}`}>
+        <TimelineTitle>{month}</TimelineTitle>
+        <TimelineValue reverse={index % 2}>{numberToReal(value)}</TimelineValue>
+      </TimelineItem>
+    ));
 };
 
 const SpentTitle = ({
@@ -62,21 +67,23 @@ const SpentTitle = ({
       <Title isGroup={isGroup}>
         <TitleText>{name}</TitleText>
         <TitleValues full>
-          <Values isGroup={isGroup} negative={total < 0}>
-            Total {numberToReal(total)}
+          <Values noColor negative={total < 0}>
+            <box-icon type='solid' color='#444' name='calculator' />{" "}
+            {numberToReal(total)}
           </Values>
 
-          {balance !== undefined && (
-            <Values negative={balance < 0}>
-              Saldo {numberToReal(balance)}
-            </Values>
-          )}
+          <Values negative={balance < 0}>
+            {balance < 0 ? (
+              <box-icon color='red' name='trending-up' />
+            ) : (
+              <box-icon color='#14e214' name='trending-up' />
+            )}
+            {numberToReal(balance)}
+          </Values>
 
-          {!!negativeTotal && (
-            <Values blue negative={negativeTotal < 0}>
-              Receber {numberToReal(negativeTotal)}
-            </Values>
-          )}
+          <Values blue negative={negativeTotal < 0}>
+            {numberToReal(negativeTotal)}
+          </Values>
         </TitleValues>
 
         {isGroup && (
@@ -88,7 +95,7 @@ const SpentTitle = ({
               )
             }
           >
-            Pagar todos
+            <box-icon color='#14e214' name='check' />
           </Button>
         )}
 
@@ -101,19 +108,14 @@ const SpentTitle = ({
               )
             }
           >
-            Todos Pendente
+            <box-icon color='#14e214' name='arrow-back' />
           </Button>
         )}
       </Title>
     </RowContainer>
 
     <TimelineContainer>
-      <TimelineHeaderContainer>
-        <TimelineHeader />
-      </TimelineHeaderContainer>
-      <RowContainer>
-        <TimelineValues values={values} />
-      </RowContainer>
+      <TimelineCard values={values} />
     </TimelineContainer>
   </ColumnContainer>
 );

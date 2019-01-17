@@ -7,7 +7,7 @@ import {
   SpentButtons,
   SpentContainer
 } from "./index";
-import { formatDate, numberToReal, getMonthName } from "../utils";
+import { numberToReal, getMonthName } from "../utils";
 
 const SpentCard = ({
   spent,
@@ -17,7 +17,7 @@ const SpentCard = ({
   unPaidClick,
   removeClick
 }) => {
-  const { name, value, parcel, times, lastUpdate } = spent;
+  const { name, value, parcel, times } = spent;
   const parcelString = parcel ? parcel.toString().padStart(2, "0") : "00";
   const monthString = getMonthName(times, parcel);
   return (
@@ -29,23 +29,15 @@ const SpentCard = ({
         <SpentName size={2} title={name}>
           {name}
         </SpentName>
-        <SpentName mobile={false}>
+        <SpentName>
           <b>
             {monthString ? ` ${monthString} - ` : ""}
             {times ? `${parcelString}/${times.padStart(2, "00")}` : ""}
           </b>
         </SpentName>
-        <SpentValue mobile={false}>{formatDate(lastUpdate)}</SpentValue>
         <SpentValue right>{numberToReal(value)}</SpentValue>
       </SpentContainer>
       <SpentButtons isGroup={isGroup}>
-        <SpentValue mobile>{formatDate(lastUpdate)}</SpentValue>
-        <SpentName mobile>
-          <b>
-            {times ? `${parcelString}/${times.padStart(2, "00")}` : ""}
-            {monthString || ""}
-          </b>
-        </SpentName>
         {paid ? (
           <Button
             secondary
@@ -55,13 +47,13 @@ const SpentCard = ({
             Pendente
           </Button>
         ) : (
-          <Button secondary onClick={() => paidClick(spent)}>
-            Tá pago
+          <Button icon alt='Conta paga' onClick={() => paidClick(spent)}>
+            <box-icon color='#14e214' name='check' />
           </Button>
         )}
 
-        <Button secondary onClick={() => removeClick(spent)}>
-          Remover
+        <Button icon onClick={() => removeClick(spent)}>
+          <box-icon color='#CCC' type='regular' name='x' />
         </Button>
       </SpentButtons>
     </Spent>
