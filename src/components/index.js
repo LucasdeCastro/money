@@ -15,6 +15,13 @@ export const RowContainer = styled.div`
   }
 `;
 
+export const ColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  border: ${props => (props.isGroup ? "2px solid #EEE" : "none")};
+`;
+
 export const TitleValues = RowContainer.extend`
   flex: 2;
 `;
@@ -128,15 +135,13 @@ export const Button = styled.button`
 
 export const Title = styled.div`
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: flex-start;
   font-size: 16px;
   color: #444;
   padding: 5px 10px;
   background ${({ isGroup }) => (isGroup ? "transpatent" : "#EEE")};
-  border: 2px solid #EEE;
-  border-radius: 4px;
-  margin: 10px 0px;
   min-height: 30px;
 
   @media only screen and (max-width: 500px) {
@@ -250,4 +255,29 @@ export const Loading = styled.div`
   align-self: center;
   margin-left: -75px;
   animation: loading 2s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+`;
+
+export const TimelineTitle = styled.div`
+  flex: 1;
+  padding: 5px;
+  color: #212529;
+  font-weight: 500;
+  text-align: center;
+  font-size: 12px;
+  background: ${props => (props.reverse ? "rgba(0,0,0,.05)" : "#FFF")};
+`;
+
+export const TimelineValue = TimelineTitle.extend`
+  font-weight: normal;
+`;
+
+export const TimelineContainer = ColumnContainer.extend`
+  border: 1px solid #eee;
+  border-radius: 3px;
+  margin-bottom: 0px;
+`;
+
+export const TimelineHeaderContainer = styled.div`
+  display: flex;
+  border-bottom: 1px solid #eee;
 `;
