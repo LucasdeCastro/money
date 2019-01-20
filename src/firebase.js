@@ -135,7 +135,12 @@ const firebaseMiddleware = middlewareConfig => {
         );
 
         if (storeData.hasDiff) {
-          return db.doc(`users/${userId}`).set({
+          const firebaseKey =
+            process.env.NODE_ENV === "development"
+              ? "users_development"
+              : "users";
+
+          return db.doc(`${firebaseKey}/${userId}`).set({
             ...storeData.data,
             author_id: firebase.auth().currentUser.uid
           });
