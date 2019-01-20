@@ -29,7 +29,7 @@ const SpentCard = ({
         <SpentName size={2} title={name}>
           {name}
         </SpentName>
-        <SpentName>
+        <SpentName mobile={false}>
           <b>
             {monthString ? ` ${monthString} - ` : ""}
             {times ? `${parcelString}/${times.padStart(2, "00")}` : ""}
@@ -38,6 +38,13 @@ const SpentCard = ({
         <SpentValue right>{numberToReal(value)}</SpentValue>
       </SpentContainer>
       <SpentButtons isGroup={isGroup}>
+        <SpentName start mobile>
+          <b>
+            {monthString ? ` ${monthString} - ` : ""}
+            {times ? `${parcelString}/${times.padStart(2, "00")}` : ""}
+          </b>
+        </SpentName>
+
         {paid ? (
           <Button
             secondary

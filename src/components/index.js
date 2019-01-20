@@ -6,9 +6,9 @@ export const Main = styled.div`
 `;
 
 export const RowContainer = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: row;
-  flex: 1;
 
   @media only screen and (max-width: 500px) {
     width: ${({ full = false }) => (full ? "100%" : "auto")};
@@ -26,6 +26,8 @@ export const TitleValues = RowContainer.extend`
   display: flex;
 
   @media only screen and (max-width: 500px) {
+    flex-direction: row;
+    font-size: 13px;
   }
 `;
 
@@ -77,9 +79,10 @@ export const Spent = styled.div`
   display: flex;
   width: 100%;
   min-height: 45px;
-  border-bottom 1px solid #eee;
-  align-items: center;
   padding: 0px 10px;
+  align-items: center;
+  box-sizing: border-box;
+  border-bottom 1px solid #eee;
   color: ${props => (props.negative ? "#1a73e8" : "#444")};
 
   div:first-child{
@@ -109,6 +112,7 @@ export const SpentContainer = styled.div`
 
 export const AddForm = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   padding: 20px;
 
@@ -173,7 +177,7 @@ export const Button = styled.button`
   }
 `;
 
-export const Title = styled.h2`
+export const Title = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
@@ -185,8 +189,8 @@ export const Title = styled.h2`
   min-height: 30px;
 
   @media only screen and (max-width: 500px) {
-    flex-direction: ${({ isGroup }) => (isGroup ? "row" : "column")};
-    align-items: ${({ isGroup }) => (isGroup ? "center" : "flex-start")};
+    align-items: flex-start;
+    flex-direction: column;
 
     div {
       padding: 0px;
@@ -204,15 +208,14 @@ export const TitleText = styled.h2`
 `;
 
 export const ListContainer = styled.div`
-  animation: fade-in 1s;
-  margin-top: 40px;
   width: 100%;
-  padding: 0px 10px;
-  box-sizing: border-box;
-
   display: flex;
-  flex-direction: column;
+  margin-top: 40px;
+  padding: 0px 10px;
   align-items: center;
+  animation: fade-in 1s;
+  box-sizing: border-box;
+  flex-direction: column;
 `;
 
 export const GroupContainer = ListContainer.extend`
@@ -242,7 +245,7 @@ export const SpentName = styled.div`
 
     b {
       width: 100%;
-      text-align: center;
+      text-align: ${props => (props.start ? "left" : "center")};
     }
   }
 `;
@@ -264,11 +267,6 @@ export const SpentButtons = styled.div`
   display: flex;
   min-height: 34px;
   justify-content: flex-end;
-
-  button {
-    margin: 0px 5px;
-    display: ${({ isGroup }) => (isGroup ? "none" : "block")};
-  }
 
   cursor: ${({ isGroup }) => (isGroup ? "point" : "default")};
 
@@ -350,6 +348,8 @@ export const TimelineContainer = ColumnContainer.extend`
   overflow: auto;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
+  margin: 0px -10px;
+  width: calc(100% + 20px);
 
   ::-webkit-scrollbar {
     display: none;
