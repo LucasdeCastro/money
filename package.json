@@ -33,7 +33,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "eslint . --fix"
+      "pre-push": "yarn eslint ./src ",
+      "pre-commit": "yarn eslint ./src --fix"
     }
   },
   "devDependencies": {
