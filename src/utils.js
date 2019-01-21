@@ -12,17 +12,17 @@ export const numberToReal = number => {
 
 export const MONTH_LIST = [
   "Jan",
-  "Feb",
+  "Fev",
   "Mar",
-  "Apr",
-  "May",
+  "Abr",
+  "Mai",
   "Jun",
   "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
+  "Ago",
+  "Set",
+  "Out",
   "Nov",
-  "Dec"
+  "Dez"
 ];
 
 export const sumlist = (list, start = 0) =>

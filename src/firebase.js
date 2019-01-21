@@ -19,6 +19,9 @@ const TYPES = {
   SET_REHYDRATE_FIREBASE_LOADING: "SET_REHYDRATE_FIREBASE_LOADING"
 };
 
+const getFirebaseKey = () =>
+  process.env.NODE_ENV === "development" ? "users_development" : "users";
+
 export const firebaseReducer = (state = { loading: true }, { type }) => {
   switch (type) {
   case TYPES.SET_REHYDRATE_FIREBASE_LOADING:
@@ -69,7 +72,8 @@ const persistFirebase = (db, store, keys) => {
 
       if (userId) {
         store.dispatch({ type: TYPES.SET_REHYDRATE_FIREBASE_LOADING });
-        db.doc(`users/${userId}`)
+
+        db.doc(`${getFirebaseKey()}/${userId}`)
           .get()
           .then(result => {
             const data = result.data();
@@ -135,10 +139,7 @@ const firebaseMiddleware = middlewareConfig => {
         );
 
         if (storeData.hasDiff) {
-          const firebaseKey =
-            process.env.NODE_ENV === "development"
-              ? "users_development"
-              : "users";
+          const firebaseKey = getFirebaseKey();
 
           return db.doc(`${firebaseKey}/${userId}`).set({
             ...storeData.data,

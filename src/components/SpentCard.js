@@ -51,7 +51,7 @@ const SpentCard = ({
             onClick={() => unPaidClick(spent)}
             disabled={times && parcel && times === parcel.toString()}
           >
-            Pendente
+            <box-icon color='#14e214' name='arrow-back' />
           </Button>
         ) : (
           <Button icon alt='Conta paga' onClick={() => paidClick(spent)}>

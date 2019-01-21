@@ -1,5 +1,5 @@
 import React from "react";
-import { AddForm, Select, Button, Input, Title, InputLabel } from "./index";
+import { AddForm, Select, Button, Input, InputLabel } from "./index";
 import { connect } from "react-redux";
 import { add } from "../reducers/expenses";
 
@@ -25,24 +25,27 @@ const AddSpent = props => {
   const refs = {};
   return (
     <AddForm>
-      <Title>Adicionar novo gasto</Title>
+      <h3>Adicionar novo gasto</h3>
       <InputLabel>Nome</InputLabel>
       <Input
         type='text'
-        placeholder='Utilize o - para criar uma categoria'
+        placeholder='Utilize o - para criar uma categoria Ex: Cartão - Bike'
         innerRef={ref => (refs.name = ref)}
       />
       <InputLabel>Valor</InputLabel>
       <Input
-        placeholder='Valor'
+        placeholder='Digitar o valor utilizando o formato Americano'
         innerRef={ref => (refs.value = ref)}
         type='number'
       />
       <InputLabel>Parcelas</InputLabel>
       <Input
-        placeholder='Parcelas'
-        innerRef={ref => (refs.times = ref)}
+        min='0'
+        step='1'
         type='number'
+        pattern='\d*'
+        placeholder='Parcelas somente numeros inteiros'
+        innerRef={ref => (refs.times = ref)}
       />
       <InputLabel>Tipo</InputLabel>
       <Select innerRef={ref => (refs.type = ref)} selected={"month"}>

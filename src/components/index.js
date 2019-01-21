@@ -141,11 +141,13 @@ export const InputLabel = styled.label`
 
 export const Input = styled.input`
   height: 28px;
+  font-size: 15px;
   margin-top: 4px;
   padding: 4px 10px;
   border-radius: 5px;
   border: 1px solid #eee;
 `;
+
 export const Button = styled.button`
   display: flex;
   margin: ${({ withoutMargin }) => (withoutMargin ? "0px" : "10px 0px")};
@@ -161,8 +163,8 @@ export const Button = styled.button`
   cursor: pointer;
   justify-content: center;
 
-  ${props =>
-    props.icon &&
+  ${({ icon = false }) =>
+    icon &&
     `
       border: 0px;
       color: #CCC:
@@ -191,6 +193,7 @@ export const Title = styled.div`
   @media only screen and (max-width: 500px) {
     align-items: flex-start;
     flex-direction: column;
+    padding: 5px 0px;
 
     div {
       padding: 0px;
@@ -245,7 +248,7 @@ export const SpentName = styled.div`
 
     b {
       width: 100%;
-      text-align: ${props => (props.start ? "left" : "center")};
+      text-align: ${({ start = false }) => (start ? "left" : "center")};
     }
   }
 `;

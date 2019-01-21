@@ -74,14 +74,15 @@ const SpentTitle = ({
 
           <Values negative={balance < 0}>
             {balance < 0 ? (
-              <box-icon size={12} color='red' name='trending-up' />
+              <box-icon color='red' name='trending-up' />
             ) : (
-              <box-icon size={12} color='#14e214' name='trending-up' />
+              <box-icon color='#14e214' name='trending-up' />
             )}
             {numberToReal(balance)}
           </Values>
 
           <Values blue negative={negativeTotal < 0}>
+            <box-icon color={"#1a73e8"} name='like' />
             {numberToReal(negativeTotal)}
           </Values>
         </TitleValues>

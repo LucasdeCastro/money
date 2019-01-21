@@ -21,11 +21,10 @@ export const unPaid = payload => ({ type: TYPES.UNPAID_SPENT, payload });
 export const paid = payload => ({ type: TYPES.PAID_SPENT, payload });
 export const remove = payload => ({ type: TYPES.REMOVE_SPENT, payload });
 
-const removeExpense = (list, payload) => {
-  return list.filter(
+const removeExpense = (list, payload) =>
+  list.filter(
     ({ name, value }) => name !== payload.name && value !== payload.value
   );
-};
 
 export const sort = (a, b) => {
   if (a.times && a.times !== 0) return -1;
@@ -66,6 +65,14 @@ const getParcel = ({ parcel, times }) => {
   return parcel;
 };
 
+const checkParcel = (list, payload) => {
+  if (payload.times) {
+    const intTimes = parseInt(payload.times, 10);
+    if (intTimes === payload.parcel) return list;
+  }
+  return list.concat(payload);
+};
+
 const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
   switch (type) {
   case TYPES.ADD_SPENT:
@@ -85,7 +92,7 @@ const expenses = (state = { topay: [], paid: [] }, { payload, type }) => {
   case TYPES.UNPAID_SPENT:
     return {
       ...state,
-      topay: state.topay.concat(payload),
+      topay: checkParcel(state.topay, payload),
       paid: removeExpense(state.paid, payload)
     };
   case TYPES.PAID_SPENT:
