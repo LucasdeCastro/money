@@ -336,8 +336,8 @@ export const TimelineTitle = styled.div`
   font-weight: 500;
   text-align: center;
   font-size: 12px;
-  border-bottom: 1px solid #eee;
   background: #eee;
+  border-bottom: 1px solid #fff;
 `;
 
 export const TimelineValue = TimelineTitle.extend`
@@ -363,5 +363,13 @@ export const TimelineItem = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 70px;
+  min-width: 180px;
+`;
+
+export const SingValue = styled.span`
+  padding: 0px 5px;
+  color: ${({ blue, negative, noColor }) => {
+    if (noColor) return "#444";
+    return blue ? "#1a73e8" : negative ? "red" : "#14e214";
+  }};
 `;

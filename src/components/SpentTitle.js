@@ -5,6 +5,7 @@ import {
   Values,
   Button,
   TitleText,
+  SingValue,
   TitleValues,
   TimelineItem,
   RowContainer,
@@ -26,7 +27,7 @@ const calcValue = (values, index) => {
   }, 0);
 };
 
-const TimelineCard = ({ values }) => {
+const TimelineCard = ({ values, salary }) => {
   const currentMonth = new Date().getMonth() + 1;
   return MONTH_LIST.slice(currentMonth, MONTH_LIST.length)
     .reduce((acc, month, index) => {
@@ -46,7 +47,20 @@ const TimelineCard = ({ values }) => {
     .map(({ month, value }, index) => (
       <TimelineItem key={`${month}-${index}`}>
         <TimelineTitle>{month}</TimelineTitle>
-        <TimelineValue reverse={index % 2}>{numberToReal(value)}</TimelineValue>
+        <TimelineValue noColor>
+          <box-icon size='xs' type='solid' color='#444' name='calculator' />
+          {numberToReal(value)}
+          {salary && (
+            <SingValue negative={salary < value}>
+              {salary - value < 0 ? (
+                <box-icon size='xs' color='red' name='trending-up' />
+              ) : (
+                <box-icon size='xs' color='#14e214' name='trending-up' />
+              )}
+              {numberToReal(salary - value)}
+            </SingValue>
+          )}
+        </TimelineValue>
       </TimelineItem>
     ));
 };
@@ -59,6 +73,7 @@ const SpentTitle = ({
   paidClick,
   unPaidClick,
   negativeTotal,
+  salary = 0,
   unPaid = false,
   isGroup = false
 }) => (
@@ -68,7 +83,7 @@ const SpentTitle = ({
         <TitleText>{name}</TitleText>
         <TitleValues full>
           <Values noColor negative={total < 0}>
-            <box-icon type='solid' color='#444' name='calculator' />{" "}
+            <box-icon type='solid' color='#444' name='calculator' />
             {numberToReal(total)}
           </Values>
 
@@ -116,7 +131,7 @@ const SpentTitle = ({
     </RowContainer>
 
     <TimelineContainer>
-      <TimelineCard values={values} />
+      <TimelineCard salary={salary} values={values} />
     </TimelineContainer>
   </ColumnContainer>
 );

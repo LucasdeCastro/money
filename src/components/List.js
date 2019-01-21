@@ -10,6 +10,7 @@ import SpentTitle from "./SpentTitle";
 const List = ({
   paid,
   topay,
+  salary,
   _topay,
   groupToPay,
   paidBalance,
@@ -25,6 +26,7 @@ const List = ({
     <GroupContainer key={"group-others"}>
       <SpentTitle
         key={"topay"}
+        salary={salary}
         values={_topay}
         name={"Pendentes"}
         total={pendentTotal}
